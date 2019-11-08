@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-
 import Header from "../component/Header";
 import Gnb from "../component/Gnb";
 import Footer from "../component/Footer";
