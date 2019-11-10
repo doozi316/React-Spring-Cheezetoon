@@ -1,5 +1,6 @@
 package com.example.cheezetoon.config;
 
+import com.example.cheezetoon.security.CustomUserDetailsService;
 import com.example.cheezetoon.security.JwtAuthenticationEntryPoint;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +36,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
     CustomUserDetailsService customUserDetailService;  
 
     //보안 resource에 인증되지 않은 접근 발생시 401 에러 return
-    //spring security's AuthenticationEntryPoint interface implements
+    //spring security의 AuthenticationEntryPoint interface를 implements
     @Autowired
     private JwtAuthenticationEntryPoint unauthorizedHandler;
 
@@ -57,7 +58,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
                 .passwordEncoder(passwordEncoder()); //패스워드 암호화 구현체
     }
 
-    //인증 공급자를 위한 컨테이너
+    //AuthenticationManager : 인증 공급자를 위한 컨테이너
     //인증을 시도해서 성공하면 authentication 객체 반환
     //실패 시 exception 반환
     @Bean(BeanIds.AUTHENTICATION_MANAGER)

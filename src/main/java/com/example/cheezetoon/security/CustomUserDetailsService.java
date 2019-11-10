@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service //Repository를 통해 db에서 데이터를 가져온 후 컨트롤러에게 전달해주는 클래스
+//(custom)userService는 (custom)userDetail을 반환
 public class CustomUserDetailsService implements UserDetailsService {
 
     @Autowired
