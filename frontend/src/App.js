@@ -4,6 +4,7 @@ import './App.css';
 import Main from "./container/Main";
 import WebtoonHome from "./container/WebtoonHome";
 import Viewer from "./container/Viewer";
+import Login from "./user/login/Login";
 class App extends Component {
     render() {
         return (
@@ -13,6 +14,7 @@ class App extends Component {
                     {/* ":" 뒤에 있는 것은 prams */}
                     <Route path="/webtoon/:webtoonId" component={WebtoonHome} /> 
                     <Route path="/viewer/:episodeId" component={Viewer} />
+                    <Route path="/login" component={Login} />
                 </div>
             </Router>);
     }
