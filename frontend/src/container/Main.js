@@ -1,8 +1,5 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-// import Header from "../component/Header";
-// import Gnb from "../component/Gnb";
-// import Footer from "../component/Footer";
 import WebtoonList from "../component/WebtoonList";
 
 class Main extends Component{
@@ -65,8 +62,6 @@ class Main extends Component{
         
         return (
             <div>
-                {/* <Header />
-                <Gnb day={this.state.day} /> */}
                 <main>
                 { this.state.webtoonList.length > 0 ? (
                     <WebtoonList 
@@ -77,7 +72,6 @@ class Main extends Component{
                     </span>
                 )}
                 </main>
-                {/* <Footer /> */}
             </div>
         )
     }

@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import axios from "axios/index";
-import Gnb from '../component/Gnb';
-import Header from '../component/Header';
 
 class Viewer extends Component{
     constructor(props){
@@ -37,8 +35,7 @@ class Viewer extends Component{
         const episode = this.state.episode;
         return (
         <div>
-            <Header />
-            <Gnb />
+            
             <div className="wrap_viewer">
             { episode.id ? (
                 <div>

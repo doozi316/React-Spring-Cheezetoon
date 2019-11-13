@@ -1,7 +1,4 @@
 import React, { Component } from 'react';
-import Header from "../component/Header";
-import Gnb from "../component/Gnb";
-import Footer from "../component/Footer";
 import axios from "axios";
 import WebtoonInfo from "../component/WebtoonInfo";
 import EpisodeList from "../component/EpisodeList";
@@ -59,8 +56,6 @@ class WebtoonHome extends Component{
     render(){
         return (
             <div>
-                <Header />
-                <Gnb />
                 <main>
                 { this.state.webtoon.id ? (
                     <WebtoonInfo webtoon={this.state.webtoon} />
@@ -74,7 +69,6 @@ class WebtoonHome extends Component{
                     <span>LOADING...</span>
                 ) }
                 </main>
-                <Footer />
             </div>
         )
     }

@@ -5,7 +5,6 @@
         "title" : "미생",
         "artist" : "윤태호",
         "day" : "mon",
-        "kor" : "월요일",
         "thumbnail" : "http://t1.daumcdn.net/webtoon/op/f6df13cba138bce8e5526e71fd46ecb1d8433520"
       },
       {
@@ -13,7 +12,6 @@
         "title" : "무한도전",
         "artist" : "김태호",
         "day" : "mon",
-        "kor" : "월요일",
         "thumbnail" : "http://t1.daumcdn.net/webtoon/op/b6a0a829b579340585887cb44e762d664e055e7d"
       },
       {
@@ -21,7 +19,6 @@
         "title" : "런닝맨",
         "artist" : "유재석",
         "day" : "mon",
-        "kor" : "월요일",
         "thumbnail" : "http://t1.daumcdn.net/webtoon/op/c61ba72e44b0acc8c871ae99c54fca6174410594"
       },
       {
@@ -29,7 +26,6 @@
         "title" : "한끼줍쇼",
         "artist" : "BTS",
         "day" : "tue",
-        "kor" : "화요일",
         "thumbnail" : "http://t1.daumcdn.net/cartoon/58A6AC20042CC40002"
       },
       {
@@ -37,7 +33,6 @@
         "title" : "냉장고를 부탁해",
         "artist" : "트와이스",
         "day" : "tue",
-        "kor" : "화요일",
         "thumbnail" : "http://t1.daumcdn.net/cartoon/589C32130248A30001"
       },
       {
@@ -53,7 +48,6 @@
         "title" : "골목식당",
         "artist" : "여자친구",
         "day" : "wed",
-        "kor" : "수요일",
         "thumbnail" : "http://t1.daumcdn.net/webtoon/op/8cc3b938d6d1c665f7e19b5949c3161e85d8b41d"
       },
       {
@@ -61,7 +55,6 @@
         "title" : "나 혼자 산다",
         "artist" : "위너",
         "day" : "wed",
-        "kor" : "수요일",
         "thumbnail" : "http://i1.cartoon.daumcdn.net/svc/image/U03/cartoon/566A81290233790001"
       },
       {
@@ -69,7 +62,6 @@
         "title" : "라디오 스타",
         "artist" : "윤종신",
         "day" : "wed",
-        "kor" : "수요일",
         "thumbnail" : "http://i1.cartoon.daumcdn.net/svc/image/U03/cartoon/55E5573D0213590002"
       }
     ]
