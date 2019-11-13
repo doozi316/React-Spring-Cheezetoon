@@ -56,6 +56,11 @@ class AppHeader extends Component {
         let menuItems;
         if(this.props.currentUser) {
           menuItems = [
+          <Menu.Item key="/adminmenu">
+            <Link to="/adminmenu">
+              Admin
+            </Link>
+          </Menu.Item>,
           <Menu.Item key="/profile" className="profile-menu">
             <ProfileDropdownMenu 
               currentUser={this.props.currentUser} 
