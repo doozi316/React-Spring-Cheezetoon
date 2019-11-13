@@ -22,16 +22,10 @@
     padding: 0;
   }
   
-  /* .app-menu {
-    float: right;
-  } */
-  
-  
-  .left1, .left2{
+  .app-menu {
     float: right;
   }
-
-
+  
   .app-menu > li {
     padding: 0 20px;
   }
@@ -88,3 +82,6 @@
     margin: 0 -15px;
   }
 }  
+.app-sider{
+  padding-top:64px;
+}
