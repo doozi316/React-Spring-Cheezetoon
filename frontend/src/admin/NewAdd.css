@@ -1,0 +1,12 @@
+@import url(http://fonts.googleapis.com/earlyaccess/nanumgothic.css);
+
+.newAdd-container {
+    max-width: 420px;
+    margin: 0 auto;
+    margin-top: 40px;
+    font-family: "Nanum Gothic";
+}
+
+.newAddButton {
+    width: 100%;
+}

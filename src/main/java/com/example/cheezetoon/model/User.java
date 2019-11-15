@@ -20,6 +20,8 @@ import javax.validation.constraints.Size;
 import com.example.cheezetoon.model.audit.DateAudit;
 
 import org.hibernate.annotations.NaturalId;
+
+
 @Entity
 @Table(name = "users", uniqueConstraints = {
         @UniqueConstraint(columnNames = {

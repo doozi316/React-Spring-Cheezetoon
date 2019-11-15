@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Button } from 'antd';
+import { Link } from 'react-router-dom';
 import './AdminMenu.css';
 
 class AdminMenu extends Component {
@@ -8,7 +9,9 @@ class AdminMenu extends Component {
             <div className="admin-menu-container">
                 <h2>관리자님, 환영합니다</h2>
                 <Button type="primary" block size="large">
-                    새 웹툰 등록
+                    <Link to="/newadd">
+                        새 웹툰 등록
+                    </Link>
                 </Button>
                 <Button type="primary" block size="large">
                     에피소드 업로드
