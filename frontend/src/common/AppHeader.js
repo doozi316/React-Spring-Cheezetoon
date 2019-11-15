@@ -4,7 +4,7 @@ import './AppHeader.css';
 import { Layout, Menu, Dropdown, Icon } from 'antd';
 
 const { SubMenu } = Menu;
-const { Header, Content, Sider } = Layout;
+const { Header, Sider } = Layout;
 
 
 function ProfileDropdownMenu(props) {
