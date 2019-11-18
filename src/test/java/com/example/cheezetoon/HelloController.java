@@ -9,6 +9,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class HelloController{
     @GetMapping("/api/hello")
     public String hello(){
-        return "Hello, the time at the server is now" + new Date() + "\n";
+        return "Hello, the time at the server is now";
     }
 }

@@ -74,10 +74,3 @@ export function getUserProfile(username) {
 }
 
 
-export function addNewWebtoon(data) {
-    return request({
-        url: API_BASE_URL + "/save",
-        method: 'POST',
-        body: JSON.stringify(data)
-    });
-}
