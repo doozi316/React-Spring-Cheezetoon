@@ -9,7 +9,7 @@ class AdminMenu extends Component {
             <div className="admin-menu-container">
                 <h2>관리자님, 환영합니다</h2>
                 <Button type="primary" block size="large">
-                    <Link to="/newadd">
+                    <Link to="/newToonSave">
                         새 웹툰 등록
                     </Link>
                 </Button>
