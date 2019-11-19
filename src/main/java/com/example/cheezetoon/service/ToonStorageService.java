@@ -5,8 +5,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.Optional;
 
 import com.example.cheezetoon.config.FileStorageProperties;
+import com.example.cheezetoon.exception.DataAlreadyExistsException;
 import com.example.cheezetoon.exception.FileStorageException;
 import com.example.cheezetoon.model.ToonStorage;
 import com.example.cheezetoon.repository.ToonStorageDAO;
@@ -40,7 +42,7 @@ public class ToonStorageService {
     }
 
     // 파일 저장
-    public ToonStorage storeFile(MultipartFile file) {
+    public ToonStorage storeFile(String title, String artist, String day, String genre, MultipartFile file) {
         // Normalize file name
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
 
@@ -60,7 +62,7 @@ public class ToonStorageService {
             
             Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
 
-            ToonStorage toonStorage = new ToonStorage(fileName, fileUri, file.getContentType(), file.getSize());
+            ToonStorage toonStorage = new ToonStorage(title, artist, day, genre, fileName, fileUri, file.getContentType(), file.getSize());
         
             toonStorageDAO.save(toonStorage);
         

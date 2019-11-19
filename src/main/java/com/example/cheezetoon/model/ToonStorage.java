@@ -9,6 +9,9 @@ import javax.persistence.Table;
 
 import com.example.cheezetoon.model.audit.DateAudit;
 
+
+
+
 @Entity
 @Table(name="toon_storage")
 public class ToonStorage extends DateAudit{
@@ -17,6 +20,18 @@ public class ToonStorage extends DateAudit{
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name="id")
     private int id;
+
+    @Column(name="title")
+    private String title;
+
+    @Column(name="artist")
+    private String artist;
+
+    @Column(name="day")
+    private String day;
+
+    @Column(name="genre")
+    private String genre;
 
     @Column(name="file_name")
     private String fileName;
@@ -33,7 +48,11 @@ public class ToonStorage extends DateAudit{
     public ToonStorage(){
     }
 
-    public ToonStorage(String fileName, String fileUri, String fileType, Long size) {
+    public ToonStorage(String title, String artist, String day, String genre, String fileName, String fileUri, String fileType, Long size) {
+        this.title = title;
+        this.artist = artist;
+        this.day = day;
+        this.genre = genre;
         this.fileName = fileName;
         this.fileUri = fileUri;
         this.fileType = fileType;

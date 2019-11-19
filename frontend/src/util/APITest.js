@@ -24,9 +24,13 @@ const request = (options) => {
 };
 
 
-export function uploadFile(fileList) {
+export function uploadFile(title, artist, day, genre, fileList) {
         const formData = new FormData();
-        formData.append('fileList', fileList);
+        formData.append('title', title);
+        formData.append('artist', artist);
+        formData.append('day', day);
+        formData.append('genre', genre);
+        formData.append('file', fileList);
         return request({
             url:API_BASE_URL + "/newToonSave",
             method: 'POST',

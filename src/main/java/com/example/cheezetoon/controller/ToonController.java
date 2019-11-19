@@ -14,8 +14,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-@RestController
+
 @RequestMapping("/api")
+@RestController
 public class ToonController {
 
     private static final Logger logger = LoggerFactory.getLogger(ToonController.class);
@@ -23,12 +24,15 @@ public class ToonController {
     @Autowired
     private ToonStorageService toonStorageService;
 
-    @PostMapping(value = "/newToonSave", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     @PreAuthorize("hasRole('ADMIN')")
-    public ToonStorage uploadFile(@RequestParam("file") MultipartFile file) {
+    @PostMapping(value = "/newAdd", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    public ToonStorage toonStorage(@RequestParam("title") String title,
+                                    @RequestParam("artist") String artist,
+                                    @RequestParam("day") String day,
+                                    @RequestParam("genre") String genre,
+                                    @RequestParam("file") MultipartFile file) {
         
-        ToonStorage toonStorage = toonStorageService.storeFile(file);
-
+        ToonStorage toonStorage = toonStorageService.storeFile(title, artist, day, genre, file);
 
         return toonStorage;
         
