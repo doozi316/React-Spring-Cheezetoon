@@ -41,12 +41,17 @@ public class EpiStorageService {
 
 
     // 파일 저장
-    public EpiStorage storeEpi(String epiTitle, int webtoonId, MultipartFile epiFile){
+    public EpiStorage storeEpi(String epiTitle, int webtoonId, MultipartFile epiFile, MultipartFile conFile){
 
         // Normalize file name
         String epiFileName = StringUtils.cleanPath(epiFile.getOriginalFilename());
+        String conFileName = StringUtils.cleanPath(conFile.getOriginalFilename());
 
         String epiFileUri = ServletUriComponentsBuilder.fromCurrentContextPath()
+        .path("/uploads/")
+        .path(epiFileName)
+        .toUriString();
+        String conFileUri = ServletUriComponentsBuilder.fromCurrentContextPath()
         .path("/uploads/")
         .path(epiFileName)
         .toUriString();
@@ -56,19 +61,25 @@ public class EpiStorageService {
             if(epiFileName.contains("..")) {
                 throw new FileStorageException ("파일명에 부적합 문자가 포함되어 있습니다. " + epiFileName);
             }
+
+            if(conFileName.contains("..")) {
+                throw new FileStorageException ("파일명에 부적합 문자가 포함되어 있습니다. " + conFileName);
+            }
         //Copy file to the target location (Replacing existing file with the same name)
-        Path targetLocation = this.fileStorageLocation.resolve(epiFileName);
+        Path epitargetLocation = this.fileStorageLocation.resolve(epiFileName);
+        Files.copy(epiFile.getInputStream(), epitargetLocation, StandardCopyOption.REPLACE_EXISTING);
 
-        Files.copy(epiFile.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
+        Path contargetLocation = this.fileStorageLocation.resolve(conFileName);
+        Files.copy(conFile.getInputStream(), contargetLocation, StandardCopyOption.REPLACE_EXISTING);
 
-        EpiStorage epiStorage = new EpiStorage(epiTitle, webtoonId, epiFileName, epiFileUri, epiFile.getContentType(), epiFile.getSize());
+        EpiStorage epiStorage = new EpiStorage(epiTitle, webtoonId, epiFileName, epiFileUri, epiFile.getContentType(), epiFile.getSize(), conFileName, conFileUri, conFile.getContentType(), conFile.getSize());
 
         epiStorageDAO.save(epiStorage);
 
         return epiStorage;
  
     } catch(IOException ex) {
-        throw new FileStorageException("Could not store file " + epiFileName + ". Please try again!", ex);
+        throw new FileStorageException("Could not store file " + epiFileName + "or" + conFileName + ". Please try again!", ex);
     }
 }
 }

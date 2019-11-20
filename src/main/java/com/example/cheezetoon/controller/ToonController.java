@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,6 +28,7 @@ public class ToonController {
     @Autowired
     private EpiStorageService epiStorageService;
 
+
     // @PreAuthorize("hasRole('ADMIN')")
     @PostMapping(value = "/newAdd", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public ToonStorage NewAdd(@RequestParam("title") String title,
@@ -44,13 +46,13 @@ public class ToonController {
     @PostMapping (value = "/newEpi", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public EpiStorage NewEpi(@RequestParam("epiTitle") String epiTitle,
                                 @RequestParam("webtoonId") int webtoonId,
-                                @RequestParam("epiFile") MultipartFile epiFile) {
+                                @RequestParam("epiFile") MultipartFile epiFile,
+                                @RequestParam("conFile") MultipartFile conFile) {
 
                                     
-        EpiStorage epiStorage = epiStorageService.storeEpi(epiTitle, webtoonId, epiFile);
+        EpiStorage epiStorage = epiStorageService.storeEpi(epiTitle, webtoonId, epiFile, conFile);
 
         return epiStorage;
         
     }
-
 }
