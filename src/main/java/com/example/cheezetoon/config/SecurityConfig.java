@@ -103,8 +103,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
                         .permitAll() // 위 경로 누구나 접근가능
                     .antMatchers(HttpMethod.GET, "/api/users/**") //api/users로 시작하는 GET요청 리소스 누구나 접근 가능
                         .permitAll()
-                    // .antMatchers(HttpMethod.POST, "/newToonSave") 
-                    //     .permitAll()    
+                    .antMatchers(HttpMethod.POST, "/newAdd", "/newEpi") 
+                        .permitAll()    
                     .anyRequest()
                         .authenticated(); //그 외 나머지 요청은 모두 인증된 회원만 접근가능
 

@@ -47,7 +47,7 @@ public class ToonStorageService {
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
 
         String fileUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path("/Thumbnail/")
+                .path("/uploads/")
                 .path(fileName)
                 .toUriString();
         
