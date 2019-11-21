@@ -37,3 +37,23 @@ export function uploadFile(title, artist, day, genre, fileList) {
             body : formData
         })
 }
+
+export function uploadEpi(selectedToonId, epiTitle, thumbnail, main) {
+    const formData = new FormData();
+    formData.append('webtoonId', selectedToonId);
+    formData.append('epiTitle', epiTitle);
+    formData.append('epiFile', thumbnail);
+    formData.append('conFile', main);
+        return request({
+        url:API_BASE_URL + "/newEpi",
+        method: 'POST',
+        body : formData
+    })
+}
+
+export function fetchToonInfo() {
+    return request({
+        url: API_BASE_URL + "/getToonIdAndName",
+        method: 'GET'
+    });
+}

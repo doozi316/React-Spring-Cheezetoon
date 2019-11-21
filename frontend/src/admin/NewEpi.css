@@ -1,0 +1,13 @@
+@import url(http://fonts.googleapis.com/earlyaccess/nanumgothic.css);
+
+.newEpi-container {
+    max-width: 420px;
+    margin: 0 auto;
+    margin-top: 40px;
+    font-family: "Nanum Gothic";
+}
+
+.newEpiAddButton {
+    width: 100%;
+}
+

@@ -93,4 +93,32 @@ public class ToonStorage extends DateAudit{
     public void setSize(long size) {
     	this.size = size;
     }
+
+    public String getTitle() {
+    	return this.title;
+    }
+    public void setTitle(String title) {
+    	this.title = title;
+    }
+
+    public String getArtist() {
+    	return this.artist;
+    }
+    public void setArtist(String artist) {
+    	this.artist = artist;
+    }
+
+    public String getDay() {
+        return this.day;
+    }
+    public void setDay(String day) {
+        this.day = day;
+    }
+ 
+    public String getGenre() {
+    	return this.genre;
+    }
+    public void setGenre(String genre) {
+    	this.genre = genre;
+    }
 }

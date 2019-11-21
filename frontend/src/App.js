@@ -22,6 +22,7 @@ import LoadingIndicator from './common/LoadingIndicator';
 import AdminMenu from './admin/AdminMenu';
 import PrivateRoute from './common/PrivateRoute';
 import NewAdd from './admin/NewAdd';
+import NewEpi from './admin/NewEpi';
 
 import { Layout, notification } from 'antd';
 const { Content } = Layout;
@@ -116,6 +117,7 @@ class App extends Component {
                         render={(props) => <Profile isAuthenticated={this.state.isAuthenticated} currentUser={this.state.currentUser} {...props}  />}>
                         </Route>
                         <PrivateRoute authenticated={this.state.isAuthenticated} path="/newAdd" component={NewAdd} handleLogout={this.handleLogout}></PrivateRoute>
+                        <PrivateRoute authenticated={this.state.isAuthenticated} path="/newEpi" component={NewEpi} handleLogout={this.handleLogout}></PrivateRoute>
                         <PrivateRoute authenticated={this.state.isAuthenticated} path="/adminmenu" component={AdminMenu} handleLogout={this.handleLogout}></PrivateRoute>
                         <Route component={NotFound}></Route>
                   </Switch>

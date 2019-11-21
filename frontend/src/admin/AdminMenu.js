@@ -14,7 +14,9 @@ class AdminMenu extends Component {
                     </Link>
                 </Button>
                 <Button type="primary" block size="large">
+                    <Link to="/newEpi">
                     에피소드 업로드
+                    </Link>
                 </Button>
                 <Button type="primary" block size="large">
                     기존 웹툰 수정
