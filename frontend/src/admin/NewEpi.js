@@ -17,12 +17,18 @@ class NewEpi extends Component {
             main : [],
             selectedToonID : ''
         }
+        this.onChangeToon = this.onChangeToon.bind(this);
+        this.loadToonInfo = this.loadToonInfo.bind(this);
+        this.onChangeThumbnail = this.onChangeThumbnail.bind(this);
+        this.onChangeMain = this.onChangeMain.bind(this);
+        this.uploadNewEpi = this.uploadNewEpi.bind(this);
+        this.onChangeEpiTitle = this.onChangeEpiTitle.bind(this);
     }
     
 
     // 기존 만화 id 선택 시
-    onChangeToon = ({ target }) => {
-        this.setState({selectedToonID : target.value}, function(){
+    onChangeToon = value => {
+        this.setState({selectedToonID : value}, function(){
             console.log(this.state.selectedToonID)
         })
     }
@@ -89,12 +95,12 @@ class NewEpi extends Component {
                 <Form onSubmit={this.uploadNewEpi}>
                         <Form.Item label="연재 만화">
                             <Select name="toon" size="large" onChange={this.onChangeToon}>
-                                <Option value ="1">기존 만화</Option>
-                                <Option value ="2">기존 만화</Option>
-
-                                {/* {Object.entries(this.state.toons).map(([key,value]) => (
-                                    <Option value = {key}> {value.text}</Option> 
-                                ))} */}
+                               
+                                {this.state.toons.map(function(toon) {
+                                    return (
+                                        <Option key = {toon.id} value = {toon.id}> {toon.title} </Option>
+                                    )
+                                })}
                             </Select>
                         </Form.Item>
                         <Form.Item label="회차 제목">
