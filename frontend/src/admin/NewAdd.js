@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Form, Button, Input, Upload, Icon, notification, Select } from 'antd';
 import './NewAdd.css';
-import {uploadFile} from '../util/APITest';
+import {uploadFile} from '../util/APIAdmin';
 const { Dragger } = Upload;
 const { Option } = Select;
 

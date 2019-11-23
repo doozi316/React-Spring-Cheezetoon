@@ -19,7 +19,9 @@ class AdminMenu extends Component {
                     </Link>
                 </Button>
                 <Button type="primary" block size="large">
+                    <Link to="/editList">
                     기존 웹툰 수정
+                    </Link>
                 </Button>
             </div>
         );

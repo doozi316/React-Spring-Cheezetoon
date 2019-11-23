@@ -1,4 +1,4 @@
-import { API_BASE_URL, ACCESS_TOKEN } from '../constants';
+import { API_BASE_URL, ACCESS_TOKEN} from '../constants';
 
 
 
@@ -25,15 +25,42 @@ const request = (options) => {
 
 
 export function uploadFile(title, artist, day, genre, fileList) {
-        const formData = new FormData;
+        const formData = new FormData();
         formData.append('title', title);
         formData.append('artist', artist);
         formData.append('day', day);
         formData.append('genre', genre);
-        formData.append('fileList', fileList);
+        formData.append('file', fileList);
         return request({
-            url:API_BASE_URL + "/save",
+            url:API_BASE_URL + "/newToonSave",
             method: 'POST',
             body : formData
         })
+}
+
+export function uploadEpi(selectedToonId, epiTitle, thumbnail, main) {
+    const formData = new FormData();
+    formData.append('webtoonId', selectedToonId);
+    formData.append('epiTitle', epiTitle);
+    formData.append('epiFile', thumbnail);
+    formData.append('conFile', main);
+        return request({
+        url:API_BASE_URL + "/newEpi",
+        method: 'POST',
+        body : formData
+    })
+}
+
+export function fetchToonInfo() {
+    return request({
+        url: API_BASE_URL + "/getToonIdAndName",
+        method: 'GET'
+    });
+}
+
+export function fetchToon() {
+    return request({
+        url: API_BASE_URL + "/getToon",
+        method: 'GET'
+    });
 }

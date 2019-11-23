@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Form, Button, Input, Upload, Icon, notification, Select } from 'antd';
 import './NewEpi.css';
-import { uploadEpi , fetchToonInfo } from '../util/APITest';
+import { uploadEpi , fetchToonInfo } from '../util/APIAdmin';
 const { Dragger } = Upload;
 const { Option } = Select;
 
