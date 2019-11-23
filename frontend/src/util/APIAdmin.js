@@ -64,3 +64,10 @@ export function fetchToon() {
         method: 'GET'
     });
 }
+
+export function fetchEpi() {
+    return request({
+        url: API_BASE_URL + "/getEpi",
+        method: 'GET'
+    });
+}

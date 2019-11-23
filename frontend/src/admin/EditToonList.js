@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { fetchToon } from '../util/APIAdmin';
 import { Table, Divider, Button } from 'antd';
+import {Link} from "react-router-dom";
 import './EditToon.css';
 
 const columns = [
@@ -8,7 +9,7 @@ const columns = [
       title: '제목',
       dataIndex: 'title',
       key: 'title',
-      render: text => <a>{text}</a>,
+      render: (text, record) => <Link to={'editEpiList/' + record.id}>{text}</Link>,
     },
     {
       title: '작가',

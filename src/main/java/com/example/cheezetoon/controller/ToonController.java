@@ -6,6 +6,7 @@ import java.util.Map;
 
 import com.example.cheezetoon.model.EpiStorage;
 import com.example.cheezetoon.model.ToonStorage;
+import com.example.cheezetoon.repository.EpiStorageDAO;
 import com.example.cheezetoon.repository.ToonStorageDAO;
 import com.example.cheezetoon.service.EpiStorageService;
 import com.example.cheezetoon.service.ToonStorageService;
@@ -38,6 +39,9 @@ public class ToonController {
     @Autowired
     private ToonStorageDAO toonStorageDAO;
 
+    @Autowired
+    private EpiStorageDAO epiStorageDAO;
+
 
 
     @PreAuthorize("hasRole('ADMIN')")
@@ -57,7 +61,7 @@ public class ToonController {
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping (value = "/newEpi", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public EpiStorage NewEpi(@RequestParam("epiTitle") String epiTitle,
-                                @RequestParam("webtoonId") int webtoonId,
+                                @RequestParam("webtoonId") Integer webtoonId,
                                 @RequestParam("epiFile") MultipartFile epiFile,
                                 @RequestParam("conFile") MultipartFile conFile) {
 
@@ -79,5 +83,11 @@ public class ToonController {
     @GetMapping ("/getToon")
     public Collection<ToonStorage> getToon() {
         return toonStorageDAO.findAll();
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping ("/getEpi")
+    public Collection<EpiStorage> getEpi() {
+        return epiStorageDAO.findAll();
     }
 }

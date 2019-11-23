@@ -15,13 +15,13 @@ public class EpiStorage extends DateAudit {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
     @Column(name="epi_title")
     private String epiTitle;
 
     @Column(name="webtoon_Id")
-    private int webtoonId;
+    private Integer webtoonId;
 
     @Column(name="epi_file_name")
     private String epiFileName;
@@ -51,7 +51,7 @@ public class EpiStorage extends DateAudit {
 
     }
 
-    public EpiStorage(String epiTitle, int webtoonId, String epiFileName, String epiFileUri, String epiFileType, Long epiSize, String conFileName, String conFileUri, String conFileType, Long conSize) {
+    public EpiStorage(String epiTitle, Integer webtoonId, String epiFileName, String epiFileUri, String epiFileType, Long epiSize, String conFileName, String conFileUri, String conFileType, Long conSize) {
 
         this.epiTitle = epiTitle;
         this.webtoonId = webtoonId;
@@ -65,13 +65,20 @@ public class EpiStorage extends DateAudit {
         this.conSize = conSize;
     }
 
-    public int getId() {
+    public Integer getId() {
         return this.id;
     }
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
+    public Integer getWebtoonId() {
+        return this.webtoonId;
+    }
+    public void setWebtoonId(Integer webtoonId) {
+        this.webtoonId = webtoonId;
+    }
+    
     public String getEpiTitle() {
     	return this.epiTitle;
     }
