@@ -4,6 +4,8 @@ import java.util.TimeZone;
 
 import javax.annotation.PostConstruct;
 
+import com.example.cheezetoon.config.EpiThumbnailProperties;
+import com.example.cheezetoon.config.EpiToonProperties;
 import com.example.cheezetoon.config.FileStorageProperties;
 
 import org.springframework.boot.SpringApplication;
@@ -17,7 +19,7 @@ import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
 //자동 convert
 @EntityScan(basePackageClasses = {DemoApplication.class, Jsr310JpaConverters.class})
 @EnableConfigurationProperties({
-	FileStorageProperties.class
+	FileStorageProperties.class, EpiThumbnailProperties.class, EpiToonProperties.class
 })
 public class DemoApplication {
 

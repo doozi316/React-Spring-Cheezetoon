@@ -1,11 +1,15 @@
 package com.example.cheezetoon.controller;
 
 
+import com.example.cheezetoon.model.EpiThumbnail;
+import com.example.cheezetoon.model.EpiToon;
+import com.example.cheezetoon.model.Episode;
 import com.example.cheezetoon.model.Toon;
 import com.example.cheezetoon.model.ToonThumbnail;
-
+import com.example.cheezetoon.repository.EpisodeRepository;
 import com.example.cheezetoon.repository.ToonRepository;
-
+import com.example.cheezetoon.service.EpiThumbnailService;
+import com.example.cheezetoon.service.EpiToonService;
 import com.example.cheezetoon.service.ToonThumbnailService;
 
 import org.slf4j.Logger;
@@ -14,12 +18,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-@RequestMapping("/api")
+// @RequestMapping("/api")
 @RestController
 public class ToonController {
 
@@ -30,7 +33,15 @@ public class ToonController {
 
     @Autowired
     private ToonThumbnailService toonThumbnailService;
+
+    @Autowired
+    private EpiThumbnailService epiThumbnailService;
     
+    @Autowired
+    private EpisodeRepository episodeRepository;
+
+    @Autowired
+    private EpiToonService epiToonService;
     
     // 새 웹툰 등록
     @PreAuthorize("hasRole('ADMIN')")
@@ -50,6 +61,31 @@ public class ToonController {
 
         Toon result = toonRepository.save(toon);
 
+        return result;
+
+    }
+
+    // 새 에피소드 등록
+    // @PreAuthorize("hasRole('ADMIN')")
+    @PostMapping(value = "/newEpi", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
+    public Episode newEpi(@RequestParam("epiTitle") String epiTitle, @RequestParam("webtoonId") Integer webtoonId,
+            @RequestParam("eFile") MultipartFile eFile, @RequestParam("mFile") MultipartFile mFile) {
+
+        
+        
+        Episode episode = new Episode(epiTitle, webtoonId);
+        EpiThumbnail epiThumbnail = epiThumbnailService.saveEpiThumbnail(eFile);
+        EpiToon epiToon = epiToonService.saveEpiToon(mFile);
+
+
+        episode.setEpiToon(epiToon);
+        epiToon.setEpisode(episode);
+
+        episode.setEpiThumbnail(epiThumbnail);
+        epiThumbnail.setEpisode(episode);
+
+        Episode result = episodeRepository.save(episode);
+        
         return result;
 
     }
