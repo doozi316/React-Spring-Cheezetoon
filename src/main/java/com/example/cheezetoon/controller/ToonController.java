@@ -69,17 +69,25 @@ public class ToonController {
     // @PreAuthorize("hasRole('ADMIN')")
     @PostMapping(value = "/newEpi", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
     public Episode newEpi(@RequestParam("epiTitle") String epiTitle, @RequestParam("webtoonId") Integer webtoonId,
-            @RequestParam("eFile") MultipartFile eFile, @RequestParam("mFile") MultipartFile mFile) {
+            @RequestParam("eFile") MultipartFile eFile, @RequestParam("mFiles") MultipartFile[] mFiles) {
 
+        
         
         
         Episode episode = new Episode(epiTitle, webtoonId);
         EpiThumbnail epiThumbnail = epiThumbnailService.saveEpiThumbnail(eFile);
-        EpiToon epiToon = epiToonService.saveEpiToon(mFile);
+        // EpiToon epiToon = epiToonService.saveEpiToon(mFile);
+        // episode.setEpiToon(epiToon);
+        // epiToon.setEpisode(episode);
 
 
-        episode.setEpiToon(epiToon);
-        epiToon.setEpisode(episode);
+        for(MultipartFile mFile : mFiles) {
+            EpiToon epiToon = epiToonService.saveEpiToon(mFile);
+            epiToon.setEpisode(episode);
+
+            episode.getEpiToons().add(epiToon);
+        }
+
 
         episode.setEpiThumbnail(epiThumbnail);
         epiThumbnail.setEpisode(episode);

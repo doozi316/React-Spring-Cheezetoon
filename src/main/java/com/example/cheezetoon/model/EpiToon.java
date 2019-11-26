@@ -6,7 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.example.cheezetoon.model.audit.DateAudit;
@@ -38,7 +38,7 @@ public class EpiToon extends DateAudit {
     private long fileSize;
 
     @JsonBackReference
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name="epi_no")
     private Episode episode;
 
