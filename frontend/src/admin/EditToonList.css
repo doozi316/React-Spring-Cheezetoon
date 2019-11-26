@@ -1,14 +1,7 @@
 @import url(http://fonts.googleapis.com/earlyaccess/nanumgothic.css);
 
-.editToon-container {
-    max-width: 420px;
+.editList-container {
     margin: 0 auto;
     margin-top: 40px;
     font-family: "Nanum Gothic";
 }
-
-.editToonButton {
-    width: 100%;
-   
-}
-

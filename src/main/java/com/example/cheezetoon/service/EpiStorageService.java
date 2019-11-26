@@ -53,7 +53,7 @@ public class EpiStorageService {
         .toUriString();
         String conFileUri = ServletUriComponentsBuilder.fromCurrentContextPath()
         .path("/uploads/")
-        .path(epiFileName)
+        .path(conFileName)
         .toUriString();
 
         try {

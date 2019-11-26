@@ -32,7 +32,7 @@ export function uploadFile(title, artist, day, genre, fileList) {
         formData.append('genre', genre);
         formData.append('file', fileList);
         return request({
-            url:API_BASE_URL + "/newToonSave",
+            url:API_BASE_URL + "/newAdd",
             method: 'POST',
             body : formData
         })
@@ -69,5 +69,26 @@ export function fetchEpi() {
     return request({
         url: API_BASE_URL + "/getEpi",
         method: 'GET'
+    });
+}
+
+export function fetchToonById(id) {
+    return request({
+        url: API_BASE_URL + "/getToonById/" + id,
+        method: 'GET'
+    });
+}
+
+export function deleteFile(id) {
+    return request({
+        url: API_BASE_URL + "/deleteFile/" + id,
+        method: 'PUT'
+    });
+}
+
+export function deleteToon(id) {
+    return request({
+        url: API_BASE_URL + "/deleteToon/" + id,
+        method: 'DELETE'
     });
 }

@@ -5,32 +5,30 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.Optional;
 
 import com.example.cheezetoon.config.FileStorageProperties;
-import com.example.cheezetoon.exception.DataAlreadyExistsException;
 import com.example.cheezetoon.exception.FileStorageException;
-import com.example.cheezetoon.model.ToonStorage;
-import com.example.cheezetoon.repository.ToonStorageDAO;
+import com.example.cheezetoon.model.ToonThumbnail;
+import com.example.cheezetoon.repository.ToonThumbnailRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
+
+import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @Service
-public class ToonStorageService {
-
+public class ToonThumbnailService {
 
     //Service가 실행될때 생성자에서 기존에 생성한 설정클래스인 FileStorageProperties 클래스로 기본 디렉토리를 설정하고 생성한다.
     private final Path fileStorageLocation;
 
     @Autowired
-    private ToonStorageDAO toonStorageDAO;
+    private ToonThumbnailRepository toonThumbnailRepository;
 
     @Autowired
-    public ToonStorageService(FileStorageProperties fileStorageProperties) {
+    public ToonThumbnailService(FileStorageProperties fileStorageProperties) {
         this.fileStorageLocation = Paths.get(fileStorageProperties.getUploadDir())
             .toAbsolutePath().normalize();
 
@@ -41,15 +39,17 @@ public class ToonStorageService {
             }
     }
 
-    // 파일 저장
-    public ToonStorage storeFile(String title, String artist, String day, String genre, MultipartFile file) {
-        // Normalize file name
+    //파일 저장
+    public ToonThumbnail saveThumbnail(MultipartFile file) {
+        //파일 이름(fileName)
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
 
+        //파일 경로(FileUri)
         String fileUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path("/uploads/")
-                .path(fileName)
-                .toUriString();
+            .path("/uploads/")
+            .path(fileName)
+            .toUriString();
+
         
         try {
             // 파일명에 부적합 문자가 있는지 확인한다.
@@ -57,18 +57,16 @@ public class ToonStorageService {
                 throw new FileStorageException ("파일명에 부적합 문자가 포함되어 있습니다. " + fileName);
             }
 
-            //Copy file to the target location (Replacing existing file with the same name)
-            Path targetLocation = this.fileStorageLocation.resolve(fileName);
-            
-            Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
+        //동일한 파일 이름이 존재한다면 copy 대체
+        Path targetLocation = this.fileStorageLocation.resolve(fileName);
 
-            ToonStorage toonStorage = new ToonStorage(title, artist, day, genre, fileName, fileUri, file.getContentType(), file.getSize());
-        
-            toonStorageDAO.save(toonStorage);
-        
-            return toonStorage;
+        Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
 
-        } catch (IOException ex) {
+        ToonThumbnail toonThumbnail = new ToonThumbnail(fileName, file.getContentType(), fileUri, file.getSize());
+    
+        return toonThumbnail;
+    
+    } catch (IOException ex) {
             throw new FileStorageException("Could not store file " +fileName + ". Please try again!", ex);
         }
     }

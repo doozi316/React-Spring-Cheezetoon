@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { fetchToon } from '../util/APIAdmin';
+import { fetchToon, deleteToon } from '../util/APIAdmin';
 import { Table, Divider, Button } from 'antd';
 import {Link} from "react-router-dom";
-import './EditToon.css';
+import './EditToonList.css';
 
 const columns = [
     {
@@ -36,9 +36,13 @@ const columns = [
         key: 'action',
         render: (text, record) => (
           <span>
-            <Button>수정</Button>
+            <Button>
+                <Link to={'editToon/' + record.id}>수정</Link>
+            </Button>
             <Divider type="vertical" />
-            <Button>삭제</Button>
+            <Button onClick={(e) => { this.onDelete(record.id, e); }}>
+                삭제
+            </Button>
           </span>
         ),
       }
@@ -55,6 +59,7 @@ class EditToonList extends Component {
         }
 
         this.loadToon = this.loadToon.bind(this);
+        this.onDelete = this.onDelete.bind(this);
 
     }
 
@@ -73,11 +78,20 @@ class EditToonList extends Component {
             });
     }
 
+    onDelete = (id, e) =>{
+        e.preventDefault();
+        deleteToon(id)
+            .then(res => {
+                this.setState({webtoons:this.state.webtoons.filter(webtoon => webtoon.id !== id)}, function(){
+                    console.log(this.state)
+                })
+            })
+    }
 
     render() {
         return (
             <div className="editList-container">
-                <Table dataSource={this.state.webtoons} columns={columns} />;
+                <Table dataSource={this.state.webtoons} columns={columns} pagination={{ pageSize: 8 }}/>;
             </div>
         );
     }

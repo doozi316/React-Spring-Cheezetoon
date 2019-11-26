@@ -19,7 +19,7 @@ public class ToonStorage extends DateAudit{
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name="id")
-    private int id;
+    private Integer id;
 
     @Column(name="title")
     private String title;
@@ -59,10 +59,10 @@ public class ToonStorage extends DateAudit{
         this.size = size;
     }
 
-    public int getId() {
+    public Integer getId() {
     	return this.id;
     }
-    public void setId(int id) {
+    public void setId(Integer id) {
     	this.id = id;
     }
 

@@ -1,31 +1,26 @@
 import React, { Component } from 'react';
 import { Form, Button, Input, Upload, Icon, notification, Select } from 'antd';
-import './NewAdd.css';
-import {uploadFile} from '../util/APIAdmin';
+import './EditToon.css';
+import { fetchToonById, deleteFile } from '../util/APIAdmin';
 const { Dragger } = Upload;
 const { Option } = Select;
 
-class NewAdd extends Component {
+
+class EditToon extends Component {
     constructor(props){
         super(props);
-    this.state = {
-        title:{
-            value:''
-        },
-        artist:{
-            value:''
-        },
-        day:'mon',
-        genre:'로맨스',
-        fileList:[]
-        };
-        this.handleInputChange = this.handleInputChange.bind(this);
-        this.uploadNewWebtoon = this.uploadNewWebtoon.bind(this);
-        this.onChange = this.onChange.bind(this);
-        this.onDayChange = this.onDayChange.bind(this);
-        this.onGenreChange = this.onGenreChange.bind(this);
-}
-
+        this.state ={
+            title:'',
+            artist:'',
+            day:'mon',
+            genre:'',
+            fileList:[],
+            originFileName:''
+            };
+            
+        }
+    
+        
 onDayChange = value =>{
     this.setState({ day: value}, function () {
         console.log(this.state.day);
@@ -37,19 +32,20 @@ onGenreChange = value =>{
     });
 }
     
-handleInputChange(event){
-    const target = event.target;
-    const inputName=target.name;
-    const inputValue = target.value;
-
-    this.setState({
-        [inputName] : {
-            value : inputValue
-        }
-    }, function(){
-        console.log(this.state);
+onChangeTitle = (e) => {
+    this.setState({title: e.target.value}, function(){
+        console.log(this.state)
     })
-}
+  }
+
+
+onChangeArtist = (e) => {
+    this.setState({artist: e.target.value}, function(){
+        console.log(this.state)
+    })
+  }
+
+
 
 onChange=({ fileList })=> {
     this.setState({ fileList }, function(){
@@ -57,34 +53,42 @@ onChange=({ fileList })=> {
      })
  }
 
- uploadNewWebtoon() {
-    try {
-        uploadFile(this.state.title.value, this.state.artist.value, this.state.day, this.state.genre, this.state.fileList[0].originFileObj)
-        this.props.history.push("/adminmenu");
-        notification.success({
-            message: 'Cheeze Toon',
-            description: "정상적으로 저장되었습니다.",
-          });
+ // 기존 특정 만화 가져오기 
+ componentDidMount() {
+    this.loadToon();
+}
 
-    } catch(error) {
-            notification.error({
-                message: 'Cheeze Toon',
-                description: error.message || '다시 시도해주세요.'
-            });
-        }
-    }
+loadToon() {
+    fetchToonById(parseInt(this.props.match.params.id, 10))
+        .then((res) => {
+            this.setState({
+                title : res.title,
+                artist : res.artist,
+                day : res.day,
+                genre : res.genre,
+                originFileName : res.fileName
+                }, function(){
+                console.log(this.state)
+            })
+        });
+}
+
+
+deleteFile(id){
+    deleteFile(id);
+}
     render() {
         return (
-            <div className="newAdd-container">
-                <Form onSubmit={this.uploadNewWebtoon}>
+            <div className="editToon-container">
+                  <Form onSubmit={this.uploadNewWebtoon}>
                     <Form.Item label="작품 제목">
-                            <Input type="text" name="title" size="large" placeholder="Title" value={this.state.title.value} onChange={this.handleInputChange}></Input>
+                            <Input type="text" name="title" size="large" placeholder="Title" value={this.state.title} onChange={this.onChangeTitle}></Input>
                         </Form.Item>
                         <Form.Item label="작가">
-                            <Input type="text" name="artist" size="large" placeholder="Artist" value={this.state.artist.value} onChange={this.handleInputChange}></Input>
+                            <Input type="text" name="artist" size="large" placeholder="Artist" value={this.state.artist} onChange={this.onChangeArtist}></Input>
                         </Form.Item>
                         <Form.Item label="연재 요일">
-                            <Select name="day" defaultValue="월요일" size="large" onChange={this.onDayChange}>
+                            <Select name="day" value={this.state.day} size="large" onChange={this.onDayChange}>
                                 <Option value="mon">월요일</Option>
                                 <Option value="tue">화요일</Option>
                                 <Option value="wed">수요일</Option>
@@ -95,7 +99,7 @@ onChange=({ fileList })=> {
                             </Select>
                         </Form.Item>
                         <Form.Item label="장르">
-                            <Select name="genre" defaultValue="로맨스" size="large" onChange={this.onGenreChange}>
+                            <Select name="genre" value={this.state.genre} size="large" onChange={this.onGenreChange}>
                                 <Option value="로맨스">로맨스</Option>
                                 <Option value="일상">일상</Option>
                                 <Option value="공포">공포</Option>
@@ -103,6 +107,8 @@ onChange=({ fileList })=> {
                             </Select>
                         </Form.Item>
                         <Form.Item label="썸네일">
+                            <span>{this.state.originFileName}&nbsp;</span> 
+                            <Button type="primary" size="small" onClick={() => this.deleteFile(parseInt(this.props.match.params.id, 10))}>Delete</Button>
                             <Dragger onChange={this.onChange} beforeUpload={() => false} >
                                 <p className="ant-upload-drag-icon">
                                 <Icon type="inbox" />
@@ -115,7 +121,7 @@ onChange=({ fileList })=> {
                             </Dragger>
                         </Form.Item>
                         <Form.Item>
-                            <Button type="primary" className="newAddButton" size="large" htmlType="submit">Save</Button>
+                            <Button type="primary" className="editToonButton" size="large" htmlType="submit">Save</Button>
                         </Form.Item>
                 </Form>
             </div>
@@ -123,4 +129,4 @@ onChange=({ fileList })=> {
     }
 }
 
-export default NewAdd;
+export default EditToon;
