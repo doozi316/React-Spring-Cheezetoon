@@ -43,10 +43,10 @@ public class Episode extends DateAudit {
     private EpiThumbnail epiThumbnail;
 
     @JsonManagedReference
-    @OneToMany(fetch=FetchType.LAZY,
+    @OneToOne(fetch=FetchType.LAZY,
             cascade = CascadeType.ALL,
             mappedBy = "episode")
-    private Set<EpiToon> epiToons = new HashSet<>();
+    private EpiToon epiToon;
 
     public Episode(){
         

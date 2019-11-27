@@ -12,6 +12,9 @@ import javax.persistence.Table;
 import com.example.cheezetoon.model.audit.DateAudit;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -37,6 +40,7 @@ public class ToonThumbnail extends DateAudit{
     @Column(name="file_size")
     private long fileSize;
 
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonBackReference
     @OneToOne
     @JoinColumn(name="toon_no")

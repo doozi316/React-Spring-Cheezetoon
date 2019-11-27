@@ -24,6 +24,20 @@ const request = (options) => {
 };
 
 
+const deleteRequest = (options) => {
+    const headers = new Headers()
+
+    if(localStorage.getItem(ACCESS_TOKEN)) {
+        headers.append('Authorization', 'Bearer ' + localStorage.getItem(ACCESS_TOKEN))
+    }
+
+    const defaults = {headers: headers};
+    options = Object.assign({}, defaults, options);
+
+    return fetch(options.url, options)
+}
+
+
 export function uploadFile(title, artist, day, genre, fileList) {
         const formData = new FormData();
         formData.append('title', title);
@@ -39,11 +53,11 @@ export function uploadFile(title, artist, day, genre, fileList) {
 }
 
 export function uploadEpi(selectedToonId, epiTitle, thumbnail, main) {
-    const formData = new FormData();
-    formData.append('webtoonId', selectedToonId);
-    formData.append('epiTitle', epiTitle);
-    formData.append('epiFile', thumbnail);
-    formData.append('conFile', main);
+        const formData = new FormData();
+        formData.append('webtoonId', selectedToonId);
+        formData.append('epiTitle', epiTitle);
+        formData.append('eFile', thumbnail);
+        formData.append('mFile', main);
         return request({
         url:API_BASE_URL + "/newEpi",
         method: 'POST',
@@ -87,8 +101,16 @@ export function deleteFile(id) {
 }
 
 export function deleteToon(id) {
-    return request({
+    return deleteRequest({
         url: API_BASE_URL + "/deleteToon/" + id,
         method: 'DELETE'
     });
 }
+
+export function fetchToonThumbnailById(id) {
+    return request({
+        url: API_BASE_URL + "/getToonThumbnailById/" + id,
+        method: 'GET'
+    });
+}
+

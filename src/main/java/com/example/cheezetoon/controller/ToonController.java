@@ -1,6 +1,11 @@
 package com.example.cheezetoon.controller;
 
 
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
 import com.example.cheezetoon.model.EpiThumbnail;
 import com.example.cheezetoon.model.EpiToon;
 import com.example.cheezetoon.model.Episode;
@@ -17,12 +22,16 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-// @RequestMapping("/api")
+@RequestMapping("/api")
 @RestController
 public class ToonController {
 
@@ -69,25 +78,17 @@ public class ToonController {
     // @PreAuthorize("hasRole('ADMIN')")
     @PostMapping(value = "/newEpi", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
     public Episode newEpi(@RequestParam("epiTitle") String epiTitle, @RequestParam("webtoonId") Integer webtoonId,
-            @RequestParam("eFile") MultipartFile eFile, @RequestParam("mFiles") MultipartFile[] mFiles) {
+            @RequestParam("eFile") MultipartFile eFile, @RequestParam("mFile") MultipartFile mFile) {
 
-        
         
         
         Episode episode = new Episode(epiTitle, webtoonId);
         EpiThumbnail epiThumbnail = epiThumbnailService.saveEpiThumbnail(eFile);
-        // EpiToon epiToon = epiToonService.saveEpiToon(mFile);
-        // episode.setEpiToon(epiToon);
-        // epiToon.setEpisode(episode);
+        EpiToon epiToon = epiToonService.saveEpiToon(mFile);
 
 
-        for(MultipartFile mFile : mFiles) {
-            EpiToon epiToon = epiToonService.saveEpiToon(mFile);
-            epiToon.setEpisode(episode);
-
-            episode.getEpiToons().add(epiToon);
-        }
-
+        episode.setEpiToon(epiToon);
+        epiToon.setEpisode(episode);
 
         episode.setEpiThumbnail(epiThumbnail);
         epiThumbnail.setEpisode(episode);
@@ -98,24 +99,19 @@ public class ToonController {
 
     }
 
+    
+    // 새 에피소드 등록을 위한 webtoonId 값 가져오기
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/getToonIdAndName")
+    public List<Map<String, Object>> getTIAN() {
+        return toonRepository.getToonIdAndName();
+    }
 
-
-
-
-
-
-
-    // @PreAuthorize("hasRole('ADMIN')")
-    // @GetMapping("/getToonIdAndName")
-    // public List<Map<String, Object>> getTIAN() {
-    //     return toonStorageDAO.getToonIdAndName();
-    // }
-
-    // @PreAuthorize("hasRole('ADMIN')")
-    // @GetMapping("/getToon")
-    // public Collection<ToonStorage> getToon() {
-    //     return toonStorageDAO.findAll();
-    // }
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/getToon")
+    public Collection<Toon> getToon() {
+        return toonRepository.findAll();
+    }
 
     // @PreAuthorize("hasRole('ADMIN')")
     // @GetMapping("/getEpi")
@@ -123,12 +119,18 @@ public class ToonController {
     //     return epiStorageDAO.findAll();
     // }
 
-    // @PreAuthorize("hasRole('ADMIN')")
-    // @GetMapping("/getToonById/{id}")
-    // public Optional<ToonStorage> getToonById(@PathVariable int id) {
-    //     return toonStorageDAO.findById(id);
-    // }
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/getToonById/{id}")
+    public Optional<Toon> getToonById(@PathVariable int id) {
+        return toonRepository.findById(id);
+    }
 
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/getToonThumbnailById/{id}")
+    public List<Map<String, Object>> getToonThumbnailById(@PathVariable int id) {
+        return toonRepository.getToonThumbnailByID(id);
+    }
 
     // // @PreAuthorize("hasRole('ADMIN')")
     // @PutMapping("/deleteFile/{id}")
@@ -136,10 +138,11 @@ public class ToonController {
     //     return toonStorageDAO.deleteFileInfo(id);
     // }
 
-    // // @PreAuthorize("hasRole('ADMIN')")
-    // @DeleteMapping("/deleteToon/{id}")
-    // public void deleteToon(@PathVariable Integer id) {
-    //     toonStorageDAO.deleteById(id);
-    // }
+    // 기존 웹툰 삭제
+    @PreAuthorize("hasRole('ADMIN')")
+    @DeleteMapping("/deleteToon/{id}")
+    public void deleteToon(@PathVariable Integer id) {
+        toonRepository.deleteById(id);
+    }
 
 }

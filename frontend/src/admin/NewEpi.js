@@ -66,6 +66,7 @@ class NewEpi extends Component {
     uploadNewEpi() {
         try {
             uploadEpi(this.state.selectedToonID, this.state.epiTitle, this.state.thumbnail[0].originFileObj, this.state.main[0].originFileObj)
+            
             this.props.history.push("/adminmenu");
             notification.success({
                 message: 'Cheeze Toon',
@@ -98,7 +99,7 @@ class NewEpi extends Component {
                                
                                 {this.state.toons.map(function(toon) {
                                     return (
-                                        <Option key = {toon.id} value = {toon.id}> {toon.title} </Option>
+                                        <Option key = {toon.tno} value = {toon.tno}> {toon.title} </Option>
                                     )
                                 })}
                             </Select>
@@ -118,7 +119,7 @@ class NewEpi extends Component {
                             </Dragger>
                         </Form.Item>
                         <Form.Item label="회차 본편">
-                            <Dragger onChange={this.onChangeMain} beforeUpload={() => false} >
+                            <Dragger onChange={this.onChangeMain} beforeUpload={() => false} multiple={true}>
                                 <p className="ant-upload-drag-icon">
                                 <Icon type="inbox" />
                                 </p>

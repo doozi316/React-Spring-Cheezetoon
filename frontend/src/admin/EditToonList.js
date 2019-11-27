@@ -4,49 +4,7 @@ import { Table, Divider, Button } from 'antd';
 import {Link} from "react-router-dom";
 import './EditToonList.css';
 
-const columns = [
-    {
-      title: '제목',
-      dataIndex: 'title',
-      key: 'title',
-      render: (text, record) => <Link to={'editEpiList/' + record.id}>{text}</Link>,
-    },
-    {
-      title: '작가',
-      dataIndex: 'artist',
-      key: 'artist',
-    },
-    {
-        title: '요일',
-        dataIndex: 'day',
-        key: 'day',
-    },
-    {
-        title: '장르',
-        dataIndex: 'genre',
-        key: 'genre',
-    },
-    {
-        title: '업데이트',
-        dataIndex: 'updatedAt',
-        key: 'updatedAt',
-    },
-    {
-        title: 'Action',
-        key: 'action',
-        render: (text, record) => (
-          <span>
-            <Button>
-                <Link to={'editToon/' + record.id}>수정</Link>
-            </Button>
-            <Divider type="vertical" />
-            <Button onClick={(e) => { this.onDelete(record.id, e); }}>
-                삭제
-            </Button>
-          </span>
-        ),
-      }
-  ];
+
 
 
 class EditToonList extends Component {
@@ -78,17 +36,59 @@ class EditToonList extends Component {
             });
     }
 
-    onDelete = (id, e) =>{
-        e.preventDefault();
-        deleteToon(id)
+    onDelete = (tno) =>{
+        deleteToon(tno)
             .then(res => {
-                this.setState({webtoons:this.state.webtoons.filter(webtoon => webtoon.id !== id)}, function(){
+                this.setState({webtoons:this.state.webtoons.filter(webtoon => webtoon.tno !== tno)}, function(){
                     console.log(this.state)
                 })
             })
     }
 
     render() {
+        const columns = [
+            {
+              title: '제목',
+              dataIndex: 'title',
+              key: 'title',
+              render: (text, record) => <Link to={'editEpiList/' + record.tno}>{text}</Link>,
+            },
+            {
+              title: '작가',
+              dataIndex: 'artist',
+              key: 'artist',
+            },
+            {
+                title: '요일',
+                dataIndex: 'day',
+                key: 'day',
+            },
+            {
+                title: '장르',
+                dataIndex: 'genre',
+                key: 'genre',
+            },
+            {
+                title: '업데이트',
+                dataIndex: 'updatedAt',
+                key: 'updatedAt',
+            },
+            {
+                title: 'Action',
+                key: 'action',
+                render: (text, record) => (
+                  <span>
+                    <Button>
+                        <Link to={'editToon/' + record.tno}>수정</Link>
+                    </Button>
+                    <Divider type="vertical" />
+                    <Button onClick={()=>this.onDelete(record.tno)}>
+                        삭제
+                    </Button>
+                  </span>
+                ),
+              }
+          ];
         return (
             <div className="editList-container">
                 <Table dataSource={this.state.webtoons} columns={columns} pagination={{ pageSize: 8 }}/>;

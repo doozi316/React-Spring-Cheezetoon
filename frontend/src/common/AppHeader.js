@@ -95,7 +95,7 @@ class AppHeader extends Component {
           </div>
           </Header>
           <Layout>
-            <Sider width={200} style={{ background: '#FFC726' }} className="app-sider">
+            <Sider style={{ width:"200", background: '#FFC726', height:"100vh", position: 'fixed', left: 0}} className="app-sider">
               <Menu
                 mode="inline"
                 defaultSelectedKeys={['1']}

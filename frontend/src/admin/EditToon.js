@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Form, Button, Input, Upload, Icon, notification, Select } from 'antd';
 import './EditToon.css';
-import { fetchToonById, deleteFile } from '../util/APIAdmin';
+import { fetchToonById, deleteFile, fetchToonThumbnailById } from '../util/APIAdmin';
 const { Dragger } = Upload;
 const { Option } = Select;
 
@@ -56,6 +56,7 @@ onChange=({ fileList })=> {
  // 기존 특정 만화 가져오기 
  componentDidMount() {
     this.loadToon();
+    this.loadToonThumbnail();
 }
 
 loadToon() {
@@ -65,14 +66,23 @@ loadToon() {
                 title : res.title,
                 artist : res.artist,
                 day : res.day,
-                genre : res.genre,
-                originFileName : res.fileName
+                genre : res.genre
                 }, function(){
                 console.log(this.state)
             })
         });
 }
 
+loadToonThumbnail() {
+    fetchToonThumbnailById(parseInt(this.props.match.params.id, 10))
+        .then((res) => {
+            this.setState({
+                originFileName : res.fileName
+            }, function(){
+                console.log(this.state)
+            })
+        });
+}
 
 deleteFile(id){
     deleteFile(id);
