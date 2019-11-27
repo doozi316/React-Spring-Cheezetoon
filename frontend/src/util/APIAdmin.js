@@ -79,9 +79,9 @@ export function fetchToon() {
     });
 }
 
-export function fetchEpi() {
+export function fetchEpi(id) {
     return request({
-        url: API_BASE_URL + "/getEpi",
+        url: API_BASE_URL + "/getEpi/" + id,
         method: 'GET'
     });
 }

@@ -77,12 +77,12 @@ public class ToonController {
     // 새 에피소드 등록
     // @PreAuthorize("hasRole('ADMIN')")
     @PostMapping(value = "/newEpi", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
-    public Episode newEpi(@RequestParam("epiTitle") String epiTitle, @RequestParam("webtoonId") Integer webtoonId,
+    public Episode newEpi(@RequestParam("epiTitle") String epiTitle, @RequestParam("webtoonId") Toon toon,
             @RequestParam("eFile") MultipartFile eFile, @RequestParam("mFile") MultipartFile mFile) {
 
         
         
-        Episode episode = new Episode(epiTitle, webtoonId);
+        Episode episode = new Episode(epiTitle, toon);
         EpiThumbnail epiThumbnail = epiThumbnailService.saveEpiThumbnail(eFile);
         EpiToon epiToon = epiToonService.saveEpiToon(mFile);
 
@@ -113,11 +113,11 @@ public class ToonController {
         return toonRepository.findAll();
     }
 
-    // @PreAuthorize("hasRole('ADMIN')")
-    // @GetMapping("/getEpi")
-    // public Collection<EpiStorage> getEpi() {
-    //     return epiStorageDAO.findAll();
-    // }
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/getEpi/{id}")
+    public Collection<Episode> getEpiById(@PathVariable int id) {
+        return episodeRepository.getEpiById(id);
+    }
 
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/getToonById/{id}")

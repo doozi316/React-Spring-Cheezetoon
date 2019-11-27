@@ -1,8 +1,5 @@
 package com.example.cheezetoon.model;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,11 +7,13 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.example.cheezetoon.model.audit.DateAudit;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.Getter;
@@ -33,8 +32,13 @@ public class Episode extends DateAudit {
     @Column(name="epi_title")
     private String epiTitle;
 
-    @Column(name="webtoon_id")
-    private Integer webtoonId;
+    @JsonBackReference
+    @ManyToOne
+    @JoinColumn(name="webtoon_id")
+    private Toon toon;
+
+    // @Column(name="webtoon_id")
+    // private Integer webtoonId;
 
     @JsonManagedReference
     @OneToOne(fetch=FetchType.LAZY,
@@ -52,9 +56,9 @@ public class Episode extends DateAudit {
         
     }
 
-    public Episode(String epiTitle, Integer webtoonId){
+    public Episode(String epiTitle, Toon toon){
         this.epiTitle= epiTitle;
-        this.webtoonId = webtoonId;
+        this.toon = toon;
     }
 
 

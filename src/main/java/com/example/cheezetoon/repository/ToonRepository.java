@@ -18,5 +18,5 @@ public interface ToonRepository extends JpaRepository<Toon, Integer>{
     List<Map<String, Object>> getToonIdAndName();
     
     @Query(value="Select * from toon_thumbnail t where t.toon_no = ?1", nativeQuery = true)
-    List<Map<String, Object>> getToonThumbnailByID(Integer id);
+    List<Map<String, Object>> getToonThumbnailByID(int id);
 }

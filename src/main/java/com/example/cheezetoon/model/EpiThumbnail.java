@@ -1,7 +1,9 @@
 package com.example.cheezetoon.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -37,8 +39,9 @@ public class EpiThumbnail extends DateAudit {
     @Column(name="file_size")
     private long fileSize;
 
+    
     @JsonBackReference
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name="episode_no")
     private Episode episode;
 
