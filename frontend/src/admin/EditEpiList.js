@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { fetchEpi } from '../util/APIAdmin';
+import { fetchEpi, deleteEpi } from '../util/APIAdmin';
 import { Table, Divider, Button } from 'antd';
 import {Link} from "react-router-dom";
 import './EditEpiList.css';
@@ -29,9 +29,19 @@ class EditEpiList extends Component {
                 this.setState({
                     epiList : res
                 }, function(){
-                    console.log(this.state.epiList)
+                    console.log(this.state)
                 })
             });
+    }
+
+
+    onDelete = (eno) =>{
+        deleteEpi(eno)
+            .then(res => {
+                this.setState({epiList:this.state.epiList.filter(epiList => epiList.eno !== eno)}, function(){
+                    console.log(this.state)
+                })
+            })
     }
 
 
@@ -50,19 +60,24 @@ class EditEpiList extends Component {
             },
             {
                 title: 'Action',
+                className: 'action',
                 key: 'action',
                 render: (text, record) => (
                   <span>
-                    <Button>수정</Button>
+                    <Button>
+                        <Link to={'/editEpi/'+ record.webtoonId}>수정</Link>
+                    </Button>
                     <Divider type="vertical" />
-                    <Button>삭제</Button>
+                    <Button onClick={()=>this.onDelete(record.eno)}>
+                        삭제
+                    </Button>
                   </span>
                 ),
               }
           ];
         return (
             <div className="editEpiList-container">
-                 <Table dataSource={this.state.epiList} columns={columns} />
+                 <Table dataSource={this.state.epiList} columns={columns}/>
             </div>
         );
     }

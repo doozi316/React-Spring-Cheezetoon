@@ -28,6 +28,7 @@ import { Layout, notification } from 'antd';
 import EditToonList from './admin/EditToonList';
 import EditEpiList from './admin/EditEpiList';
 import EditToon from './admin/EditToon';
+import EditEpi from './admin/EditEpi';
 
 const { Content } = Layout;
 
@@ -124,8 +125,9 @@ class App extends Component {
                         <PrivateRoute authenticated={this.state.isAuthenticated} path="/newEpi" component={NewEpi} handleLogout={this.handleLogout}></PrivateRoute>
                         <PrivateRoute authenticated={this.state.isAuthenticated} path="/adminmenu" component={AdminMenu} handleLogout={this.handleLogout}></PrivateRoute>
                         <PrivateRoute authenticated={this.state.isAuthenticated} path="/editList" component={EditToonList} handleLogout={this.handleLogout}></PrivateRoute>
-                        <PrivateRoute authenticated={this.state.isAuthenticated} path="/editEpiList/:id" component={EditEpiList} handleLogout={this.handleLogout}></PrivateRoute>
                         <PrivateRoute authenticated={this.state.isAuthenticated} path="/editToon/:id" component={EditToon} handleLogout={this.handleLogout}></PrivateRoute>
+                        <PrivateRoute authenticated={this.state.isAuthenticated} path="/editEpiList/:id" component={EditEpiList} handleLogout={this.handleLogout}></PrivateRoute>
+                        <PrivateRoute authenticated={this.state.isAuthenticated} path="/editEpi/:id" component={EditEpi} handleLogout={this.handleLogout}></PrivateRoute>
                         <Route component={NotFound}></Route>
                   </Switch>
                 </div>

@@ -76,6 +76,7 @@ class EditToonList extends Component {
             {
                 title: 'Action',
                 key: 'action',
+                className: 'action',
                 render: (text, record) => (
                   <span>
                     <Button>

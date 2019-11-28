@@ -41,6 +41,7 @@ public class Toon extends DateAudit {
     @JsonManagedReference
     @OneToOne(fetch=FetchType.LAZY,
             cascade = CascadeType.ALL,
+            orphanRemoval = true,
             mappedBy = "toon")
     private ToonThumbnail toonThumbnail;
 

@@ -32,9 +32,12 @@ public class Episode extends DateAudit {
     @Column(name="epi_title")
     private String epiTitle;
 
+    @Column(name="webtoon_id")
+    private Integer webtoonId;
+
     @JsonBackReference
     @ManyToOne
-    @JoinColumn(name="webtoon_id")
+    @JoinColumn(name="toon_id")
     private Toon toon;
 
     // @Column(name="webtoon_id")
@@ -56,9 +59,10 @@ public class Episode extends DateAudit {
         
     }
 
-    public Episode(String epiTitle, Toon toon){
+    public Episode(String epiTitle, Integer webtoonId, Toon toon){
         this.epiTitle= epiTitle;
         this.toon = toon;
+        this.webtoonId = webtoonId;
     }
 
 
