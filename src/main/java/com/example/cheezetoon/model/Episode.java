@@ -46,12 +46,14 @@ public class Episode extends DateAudit {
     @JsonManagedReference
     @OneToOne(fetch=FetchType.LAZY,
             cascade = CascadeType.ALL,
+            orphanRemoval = true,
             mappedBy = "episode")
     private EpiThumbnail epiThumbnail;
 
     @JsonManagedReference
     @OneToOne(fetch=FetchType.LAZY,
             cascade = CascadeType.ALL,
+            orphanRemoval = true,
             mappedBy = "episode")
     private EpiToon epiToon;
 

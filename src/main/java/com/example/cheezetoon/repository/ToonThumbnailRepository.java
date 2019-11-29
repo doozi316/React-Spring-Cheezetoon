@@ -15,7 +15,7 @@ import org.springframework.stereotype.Repository;
 public interface ToonThumbnailRepository extends JpaRepository<ToonThumbnail, Integer> {
     @Modifying(clearAutomatically = true)
     @Transactional
-    @Query(value="Delete from toon_thumbnail where ttno = ?1", nativeQuery = true)
+    @Query(value="Delete from toon_thumbnail where toon_no = ?1", nativeQuery = true)
     void deleteToonThumbnail(Integer id);
     
     @Query(value="Select * from toon_thumbnail t where t.toon_no = ?1", nativeQuery = true)

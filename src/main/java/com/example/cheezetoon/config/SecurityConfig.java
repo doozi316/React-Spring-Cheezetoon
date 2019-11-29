@@ -101,11 +101,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
                         .permitAll()
                     .antMatchers("/api/user/checkUsernameAvailability", "/api/user/checkEmailAvailability")
                         .permitAll() // 위 경로 누구나 접근가능
-                    .antMatchers(HttpMethod.GET, "/api/users/**", "/getToon/**", "/getEpi") //api/users로 시작하는 GET요청 리소스 누구나 접근 가능
+                    .antMatchers(HttpMethod.GET, "/api/users/**", "/getToon/**", "/getToonTitle/**") //api/users로 시작하는 GET요청 리소스 누구나 접근 가능
                         .permitAll()
                     .antMatchers(HttpMethod.POST, "/newAdd", "/newEpi", "/testAdd") 
                         .permitAll()
-                    .antMatchers(HttpMethod.PUT, "/deleteToonThumbnail/**", "/putEdit/**") 
+                    .antMatchers(HttpMethod.PUT, "/deleteToonThumbnail/**", "/putEdit/**", "/uploadEditEpi/**", "/uploadEditEpiExceptTaM/**") 
                         .permitAll()  
                     .antMatchers(HttpMethod.DELETE, "/deleteToon/**") 
                         .permitAll()   

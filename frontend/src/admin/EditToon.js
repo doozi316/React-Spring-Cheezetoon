@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Form, Button, Input, Upload, Icon, notification, Select } from 'antd';
 import './EditToon.css';
-import { fetchToonById, deleteToonThumbnail, fetchToonThumbnailById, uploadEditToon } from '../util/APIAdmin';
+import { fetchToonById, deleteToonThumbnail, fetchToonThumbnailById, uploadEditToon, uploadEditToonExceptFile } from '../util/APIAdmin';
 const { Dragger } = Upload;
 const { Option } = Select;
 
@@ -104,13 +104,12 @@ deleteFile(id){
 
 uploadEditWebtoon(){
     try {
-        let file;
-        if(this.state.originFileName !==null){
-            file = this.state.originFileName;
-        } else {
-            file = this.state.fileList[0].originFileObj;
+        if(this.state.originFileName !==null){ //썸네일 수정하지 않은 경우
+            uploadEditToonExceptFile(parseInt(this.props.match.params.id, 10), this.state.title, this.state.artist, this.state.day, this.state.genre)
+        } else { //썸네일 수정한 경우
+            uploadEditToon(parseInt(this.props.match.params.id, 10), this.state.title, this.state.artist, this.state.day, this.state.genre, this.state.fileList[0].originFileObj)
         }
-        uploadEditToon(parseInt(this.props.match.params.id, 10), this.state.title, this.state.artist, this.state.day, this.state.genre, file)
+        
         this.props.history.push("/adminmenu");
         notification.success({
             message: 'Cheeze Toon',

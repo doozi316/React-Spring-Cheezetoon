@@ -7,6 +7,7 @@ import './EditEpiList.css';
 
 
 class EditEpiList extends Component {
+    _isMounted = false;
     constructor(props){
         super(props);
 
@@ -20,6 +21,7 @@ class EditEpiList extends Component {
 
     // 에피소드 가져오기 
     componentDidMount() {
+        this._isMounted = true;
         this.loadEpi();
     }
 
@@ -65,7 +67,7 @@ class EditEpiList extends Component {
                 render: (text, record) => (
                   <span>
                     <Button>
-                        <Link to={'/editEpi/'+ record.webtoonId}>수정</Link>
+                        <Link to={'/editEpi/'+ record.eno}>수정</Link>
                     </Button>
                     <Divider type="vertical" />
                     <Button onClick={()=>this.onDelete(record.eno)}>

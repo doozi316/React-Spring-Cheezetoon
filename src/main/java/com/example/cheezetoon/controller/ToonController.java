@@ -11,6 +11,8 @@ import com.example.cheezetoon.model.EpiToon;
 import com.example.cheezetoon.model.Episode;
 import com.example.cheezetoon.model.Toon;
 import com.example.cheezetoon.model.ToonThumbnail;
+import com.example.cheezetoon.repository.EpiThumbnailRepository;
+import com.example.cheezetoon.repository.EpiToonRepository;
 import com.example.cheezetoon.repository.EpisodeRepository;
 import com.example.cheezetoon.repository.ToonRepository;
 import com.example.cheezetoon.repository.ToonThumbnailRepository;
@@ -57,6 +59,12 @@ public class ToonController {
 
     @Autowired
     private ToonThumbnailRepository toonThumbnailRepository;
+
+    @Autowired
+    private EpiThumbnailRepository epiThumbnailRepository;
+
+    @Autowired
+    private EpiToonRepository epiToonRepository;
     
     // 새 웹툰 등록
     
@@ -121,7 +129,7 @@ public class ToonController {
     
     @GetMapping("/getEpi/{id}")
     public Collection<Episode> getEpiById(@PathVariable int id) {
-        return episodeRepository.getEpiById(id);
+        return episodeRepository.getEpi(id);
     }
 
     
@@ -138,7 +146,7 @@ public class ToonController {
     }
 
     
-    @PutMapping("/deleteToonThumbnail/{id}")
+    @DeleteMapping("/deleteToonThumbnail/{id}")
     public void deleteToonThumbnail(@PathVariable Integer id) {
         toonThumbnailRepository.deleteToonThumbnail(id);
     }
@@ -156,6 +164,18 @@ public class ToonController {
         episodeRepository.deleteById(id);
     }
 
+    //기존 에피소드 수정을 위해 한 에피소드 가져오기
+    @GetMapping("/getEditEpi/{id}")
+    public Optional<Episode> getEditEpiById(@PathVariable int id){
+        return episodeRepository.findById(id);
+
+    }
+
+    //에피소드 수정 용 웹툰 타이틀 가져오기
+    @GetMapping("/getToonTitle/{id}")
+    public Optional<Toon> getToonTitle(@PathVariable int id){
+        return toonRepository.findById(id);
+    }
 
 
     // 수정한 웹툰 업로드
@@ -181,5 +201,127 @@ public class ToonController {
 
         return result;
 
+    }
+
+    // 수정한 웹툰 업로드 (파일 바뀌지 않았을 때)
+    @PutMapping(value = "/uploadEditToonExceptFile/{id}", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
+    public Toon uploadEditToonExceptFile(@PathVariable int id, @RequestParam("title") String title, @RequestParam("artist") String artist,
+            @RequestParam("day") String day, @RequestParam("genre") String genre) {
+        
+
+        Toon toon = toonRepository.findById(id).get();
+        toon.setTitle(title);
+        toon.setArtist(artist);
+        toon.setDay(day);
+        toon.setGenre(genre);
+
+        Toon result = toonRepository.save(toon);
+
+        return result;
+
+    }
+
+    // 수정한 에피소드 업로드
+    @PutMapping(value = "/uploadEditEpi/{id}", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
+    public Episode uploadEditEpi(@PathVariable int id, @RequestParam("epiTitle") String epiTitle,
+            @RequestParam("eFile") MultipartFile eFile, @RequestParam("mFile") MultipartFile mFile) {
+        
+
+        Episode episode = episodeRepository.findById(id).get();
+        episode.setEpiTitle(epiTitle);
+
+        EpiThumbnail epiThumbnail = epiThumbnailService.saveEpiThumbnail(eFile);
+        EpiToon epiToon = epiToonService.saveEpiToon(mFile);
+
+        
+        
+        episode.setEpiToon(epiToon);
+        epiToon.setEpisode(episode);
+
+        episode.setEpiThumbnail(epiThumbnail);
+        epiThumbnail.setEpisode(episode);
+
+        Episode result = episodeRepository.save(episode);
+
+        return result;
+
+    }
+
+    // 수정한 에피소드 업로드 (문서만 변경됐을 경우)
+    @PutMapping(value = "/uploadEditEpiExceptTaM/{id}", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
+    public Episode uploadEditEpiExceptTaM(@PathVariable int id, @RequestParam("epiTitle") String epiTitle) {
+        
+
+        Episode episode = episodeRepository.findById(id).get();
+        episode.setEpiTitle(epiTitle);
+
+        Episode result = episodeRepository.save(episode);
+
+        return result;
+
+    }
+
+    // 수정한 에피소드 업로드(썸네일만 변경됐을 경우)
+    @PutMapping(value = "/uploadEditEpiExceptM/{id}", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
+    public Episode uploadEditEpiExceptM(@PathVariable int id, @RequestParam("epiTitle") String epiTitle,
+            @RequestParam("eFile") MultipartFile eFile) {
+        
+
+        Episode episode = episodeRepository.findById(id).get();
+        episode.setEpiTitle(epiTitle);
+
+        EpiThumbnail epiThumbnail = epiThumbnailService.saveEpiThumbnail(eFile);
+        
+
+        episode.setEpiThumbnail(epiThumbnail);
+        epiThumbnail.setEpisode(episode);
+
+        Episode result = episodeRepository.save(episode);
+
+        return result;
+
+    }
+
+    // 수정한 에피소드 업로드(본문만 변경됐을 경우)
+    @PutMapping(value = "/uploadEditEpiExceptT/{id}", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
+    public Episode uploadEditEpiExceptT(@PathVariable int id, @RequestParam("epiTitle") String epiTitle,
+            @RequestParam("mFile") MultipartFile mFile) {
+        
+
+        Episode episode = episodeRepository.findById(id).get();
+        episode.setEpiTitle(epiTitle);
+
+        EpiToon epiToon = epiToonService.saveEpiToon(mFile);
+
+        
+        
+        episode.setEpiToon(epiToon);
+        epiToon.setEpisode(episode);
+
+
+        Episode result = episodeRepository.save(episode);
+
+        return result;
+
+    }
+
+    @GetMapping("/getEpiThumbnailById/{id}")
+    public Optional<EpiThumbnail> getEpiThumbnailById(@PathVariable int id) {
+        return epiThumbnailRepository.getEpiThumbnailById(id);
+    }
+
+    @DeleteMapping("/deleteEpiThumbnail/{id}")
+    public void deleteEpiThumbnail(@PathVariable Integer id) {
+        epiThumbnailRepository.deleteEpiThumbnail(id);
+    }
+
+    @DeleteMapping("/deleteEpiToon/{id}")
+    public void deleteEpiToon(@PathVariable Integer id) {
+        epiToonRepository.deleteEpiToon(id);
+    }
+
+    @GetMapping("/getEpiToon/{id}")
+    public Optional<EpiToon> getEpiToon(@PathVariable int id) {
+        return epiToonRepository.getEpiToon(id);
     }
 }

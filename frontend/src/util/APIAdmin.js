@@ -66,6 +66,54 @@ export function uploadEpi(selectedToonId, epiTitle, thumbnail, main) {
     })
 }
 
+export function uploadEditEpi(id, epiTitle, eFile, mFile){
+    const formData = new FormData();
+    formData.append('epiTitle', epiTitle);
+    formData.append('eFile', eFile);
+    formData.append('mFile', mFile);
+    return request({
+        url:API_BASE_URL + "/uploadEditEpi/" + id,
+        method: 'PUT',
+        body : formData
+    })
+    
+}
+
+export function uploadEditEpiExceptTaM(id, epiTitle){
+    const formData = new FormData();
+    formData.append('epiTitle', epiTitle);
+    return request({
+        url:API_BASE_URL + "/uploadEditEpiExceptTaM/" + id,
+        method: 'PUT',
+        body : formData
+    })
+    
+}
+
+export function uploadEditEpiExceptM(id, epiTitle, eFile){
+    const formData = new FormData();
+    formData.append('epiTitle', epiTitle);
+    formData.append('eFile', eFile);
+    return request({
+        url:API_BASE_URL + "/uploadEditEpiExceptM/" + id,
+        method: 'PUT',
+        body : formData
+    })
+    
+}
+
+export function uploadEditEpiExceptT(id, epiTitle, mFile){
+    const formData = new FormData();
+    formData.append('epiTitle', epiTitle);
+    formData.append('eFile', mFile);
+    return request({
+        url:API_BASE_URL + "/uploadEditEpiExceptT/" + id,
+        method: 'PUT',
+        body : formData
+    })
+    
+}
+
 export function fetchToonInfo() {
     return request({
         url: API_BASE_URL + "/getToonIdAndName",
@@ -97,7 +145,7 @@ export function fetchToonById(id) {
 export function deleteToonThumbnail(id) {
     return deleteRequest({
         url: API_BASE_URL + "/deleteToonThumbnail/" + id,
-        method: 'PUT'
+        method: 'DELETE'
     });
 }
 
@@ -130,9 +178,64 @@ export function uploadEditToon(id, title, artist, day, genre, fileList) {
     })
 }
 
+export function uploadEditToonExceptFile(id, title, artist, day, genre) {
+    const formData = new FormData();
+    formData.append('title', title);
+    formData.append('artist', artist);
+    formData.append('day', day);
+    formData.append('genre', genre);
+    return request({
+        url:API_BASE_URL + "/uploadEditToonExceptFile/" + id,
+        method: 'PUT',
+        body : formData
+    })
+}
+
 export function deleteEpi(id) {
     return deleteRequest({
         url: API_BASE_URL + "/deleteEpi/" + id,
         method: 'DELETE'
     });
+}
+
+export function fetchEditEpi(id) {
+    return request({
+        url : API_BASE_URL + "/getEditEpi/" + id,
+        method: 'GET'
+    });
+}
+
+export function fetchToonTitle(id) {
+    return request({
+        url :API_BASE_URL + "/getToonTitle/" + id,
+        method:'GET'
+    })
+}
+
+export function fetchEpiThumbnailById(id) {
+    return request({
+        url :API_BASE_URL + "/getEpiThumbnailById/" + id,
+        method: 'GET'
+    })
+}
+
+export function deleteEpiThumbnail(id) {
+    return deleteRequest({
+        url: API_BASE_URL + "/deleteEpiThumbnail/" + id,
+        method: 'DELETE'
+    });
+}
+
+export function deleteEpiToon(id) {
+    return deleteRequest({
+        url: API_BASE_URL + "/deleteEpiToon/" + id,
+        method: 'DELETE'
+    });
+}
+
+export function fetchEpiToon(id) {
+    return request({
+        url :API_BASE_URL + "/getEpiToon/" + id,
+        method: 'GET'
+    })
 }
