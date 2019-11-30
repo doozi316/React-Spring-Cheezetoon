@@ -29,6 +29,13 @@ public class UserPrincipal implements UserDetails {
 
     private Collection<? extends GrantedAuthority> authorities; //계정이 갖고 있는 권한 목록
 
+    public UserPrincipal(Long id, String name, String username, Collection<? extends GrantedAuthority> authorities) {
+        this.id = id;
+        this.name = name;
+        this.username = username;
+        this.authorities = authorities;
+    }
+
     public UserPrincipal(Long id, String name, String username, String email, String password, Collection<? extends GrantedAuthority> authorities) {
         this.id = id;
         this.name = name;

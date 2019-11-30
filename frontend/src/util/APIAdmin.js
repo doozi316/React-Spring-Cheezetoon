@@ -135,6 +135,13 @@ export function fetchEpi(id) {
     });
 }
 
+export function fetchEpiById(id) {
+    return request({
+        url: API_BASE_URL + "/getEpiById/" + id,
+        method: 'GET'
+    });
+}
+
 export function fetchToonById(id) {
     return request({
         url: API_BASE_URL + "/getToonById/" + id,
@@ -162,6 +169,7 @@ export function fetchToonThumbnailById(id) {
         method: 'GET'
     });
 }
+
 
 
 export function uploadEditToon(id, title, artist, day, genre, fileList) {

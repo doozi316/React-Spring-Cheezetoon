@@ -1,0 +1,33 @@
+@import url(http://fonts.googleapis.com/earlyaccess/nanumgothic.css);
+
+.wrap_webtoon{
+    margin:auto;
+    font-family: "Nanum Gothic";
+    width:1000px;
+    height:300px;
+}
+
+
+.img_webtoon{
+    width:300px;
+    height:200px;
+    float:left;
+    margin:50px;
+}
+
+.info_webtoon {
+    background-color:lightgoldenrodyellow;
+    height:300px;
+    padding-top:100px;
+}
+
+.tit_webtoon{
+    font-size:1.5rem;
+}
+
+.txt_genre{
+    margin-top:20px;
+    float:right;
+    padding-right:550px;
+    font-size:1rem;
+}

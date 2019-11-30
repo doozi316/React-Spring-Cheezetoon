@@ -1,0 +1,19 @@
+@import url(http://fonts.googleapis.com/earlyaccess/nanumgothic.css);
+
+
+.wrap_viewer{
+    margin: 0 auto;
+    font-family: "Nanum Gothic";
+    width:1000px;
+    height:100%;
+    text-align:center;
+}
+
+.top_viewer{
+    font-size:1.2rem;
+    height:140px;
+    background-color:lightgoldenrodyellow;
+    padding:60px;
+    margin-bottom:30px;
+    border-bottom: 1px solid lightgray;
+}

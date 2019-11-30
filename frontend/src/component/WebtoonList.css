@@ -1,0 +1,34 @@
+@import url(http://fonts.googleapis.com/earlyaccess/nanumgothic.css);
+
+.webtoonList__container{
+    width:100%;
+    margin: 0 auto;
+    margin-top: 40px;
+    font-family: "Nanum Gothic";
+    margin-bottom:50px;
+}
+
+.img_day{
+    width:200px;
+    height:130px;
+    margin:15px;
+}
+
+.list_webtoon{
+    list-style: none;
+}
+
+.list_webtoon li{
+    width:250px;
+    float: left;
+    text-align:center;
+}
+
+.list_webtoon li:hover{
+    background:#FFC200;
+}
+
+.info_day{
+    margin-bottom:10px;
+    color:black;
+}

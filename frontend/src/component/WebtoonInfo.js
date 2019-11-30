@@ -1,19 +1,29 @@
-import React from 'react';
 
-const WebtoonInfo = (props) => {
-    const webtoon = props.webtoon;
-    return (
-        <div className="wrap_webtoon">
-            <img src={webtoon.thumbnail} className="img_webtoon" alt={webtoon.title} />
-            <div className="info_webtoon">
-                <strong className="tit_webtoon">{webtoon.title}</strong>
-                { webtoon.genre.map((g, index) => (
-                    <span key={index} className="txt_genre">{g} </span>
-                )) }
-                <span className="num_score">평점 : {webtoon.score}</span>
+import React, { Component } from 'react';
+import "./WebtoonInfo.css";
+
+class WebtoonInfo extends Component {
+    constructor(props){
+        super(props);
+
+        this.state = {
+            webtoon : this.props.webtoon
+        };
+    }
+    render() {
+        console.log(this.state.webtoon);
+        return (
+            <div className="wrap_webtoon">
+                <img src={this.state.webtoon.toonThumbnail.fileUri} className="img_webtoon" alt={this.state.webtoon.title} />
+                <div className="info_webtoon">
+                    <strong className="tit_webtoon">{this.state.webtoon.title}</strong>
+                    <span className="txt_genre">{this.state.webtoon.genre}</span>
+                </div>
+                
             </div>
-        </div>
-    )
+        );
+    }
 }
 
 export default WebtoonInfo;
+

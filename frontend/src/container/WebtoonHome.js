@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
-import axios from "axios";
 import WebtoonInfo from "../component/WebtoonInfo";
 import EpisodeList from "../component/EpisodeList";
+import {fetchEpi, fetchToonById} from "../util/APIAdmin";
 
 class WebtoonHome extends Component{
     constructor(props){
         super(props);
 
         this.state = {
-            webtoonId : parseInt(props.match.params.webtoonId, 10), // webtoonId를 얻어서 숫자로 변환
             webtoon : {}, //웹툰 상세 객체
             episodeList : [] //에피소드 리스트
         };
@@ -20,15 +19,14 @@ class WebtoonHome extends Component{
     }
 
     _getWebtoon(){
-        const apiUrl = '/dummy/webtoon_detail.json';
-
-        axios.get(apiUrl)
-            .then(data => {
+    
+        fetchToonById(parseInt(this.props.match.params.webtoonId, 10))
+            .then(res => {
                 //웹툰들 중 ID가 일치하는 웹툰을 state.webtoon에 저장
                 this.setState({
-                    webtoon : data.data.webtoons.find(w => (
-                        w.id === this.state.webtoonId
-                    ))
+                    webtoon : res
+                }, function(){
+                    console.log(this.state);
                 });
             })
             .catch(error => {
@@ -37,15 +35,14 @@ class WebtoonHome extends Component{
     }
 
     _getEpisodeList(){
-        const apiUrl = '/dummy/episode_list.json';
 
-        axios.get(apiUrl)
-            .then(data => {
+        fetchEpi(parseInt(this.props.match.params.webtoonId, 10))
+            .then(res => {
                 //웹툰ID가 일치하는 에피소들만 state.episodeList에 저장
                 this.setState({
-                    episodeList : data.data.webtoonEpisodes.filter(episode => (
-                        episode.webtoonId === this.state.webtoonId
-                    ))
+                    episodeList : res
+                }, function(){
+                    console.log(this.state);
                 });
             })
             .catch(error => {
@@ -57,7 +54,7 @@ class WebtoonHome extends Component{
         return (
             <div>
                 <main>
-                { this.state.webtoon.id ? (
+                { this.state.webtoon.tno ? (
                     <WebtoonInfo webtoon={this.state.webtoon} />
                 ) : (
                     <span>LOADING...</span>

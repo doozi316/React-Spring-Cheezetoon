@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 import WebtoonList from "../component/WebtoonList";
+import {fetchToon} from "../util/APIAdmin";
 
 class Main extends Component{
     constructor(props){
@@ -10,8 +10,9 @@ class Main extends Component{
         const day = query.get('day'); //query 주소의 params 중 day를 가져온다 (/?day=)
 
         this.state = {
-            day : day || 'mon', //디폴트로 월요일
-            webtoonList : [] //초기 리스트는 비어있음
+            day : day || 'mon', 
+            webtoonList : [] 
+          
         };
     }
 
@@ -19,9 +20,9 @@ class Main extends Component{
         this._getList();
     }
 
-    //요일이 바뀌면 다시 setState 처리
+    
     componentDidUpdate(prevProps){
-        //라우터 마라미터 읽어오기
+        
         let prevQuery = new URLSearchParams(prevProps.location.search);
         let prevDay = prevQuery.get('day');
 
@@ -36,30 +37,25 @@ class Main extends Component{
     }
 
     _getList(){
-        //webtoon_list를 가지고 옴
-        const apiUrl = '/dummy/webtoon_list.json';
 
-        axios.get(apiUrl)
-            .then(data => {
-                //가지고 온 리스트를 state에 저장
+        fetchToon()
+            .then((res) => {
                 this.setState({
-                    webtoonList : data.data.webtoonList
-                });
-            })
-            .catch(error => {
-                console.log(error);
-            });
+                    webtoonList : res
+                })
+        });
     }
 
     
 
     render(){
-
-        const list = this.state.webtoonList.filter(webtoon => ( //filter 함수 : 아래의 함수에 만족하는 결과 도출
-            webtoon.day === this.state.day
+        const list = this.state.webtoonList.filter(webtoon => ( 
+            webtoon.day === this.state.day 
         ));
-
         
+        console.log("list :");
+        console.log(list);
+
         return (
             <div>
                 <main>

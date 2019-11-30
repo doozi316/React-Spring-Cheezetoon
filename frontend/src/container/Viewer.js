@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import axios from "axios/index";
+import {fetchEpiById} from '../util/APIAdmin';
+import "./Viewer.css";
 
 class Viewer extends Component{
     constructor(props){
         super(props)
 
         this.state = {
-            episodeId : parseInt(props.match.params.episodeId, 10),
             episode : {}
         };
     }
@@ -16,14 +16,13 @@ class Viewer extends Component{
     }
 
     _getEpisodeList(){
-        const apiUrl = '/dummy/episode_list.json';
-
-        axios.get(apiUrl)
-            .then(data => {
+    
+        fetchEpiById(parseInt(this.props.match.params.episodeId, 10))
+            .then(res => {
                 this.setState({
-                    episode : data.data.webtoonEpisodes.find(episode => (
-                        episode.id === this.state.episodeId
-                    ))
+                    episode : res
+                }, function(){
+                    console.log(this.state.episode);
                 });
             })
             .catch(error => {
@@ -34,26 +33,23 @@ class Viewer extends Component{
     render(){
         const episode = this.state.episode;
         return (
-        <div>
-            
+
             <div className="wrap_viewer">
-            { episode.id ? (
+            { episode.eno ? (
                 <div>
                     <div className="top_viewer">
-                        {episode.title}
+                        {episode.epiTitle}
                         
                     </div>
                     <div className="wrap_images">
-                        { episode.images.map((img, index) => (
-                            <img key={index} src={img} alt={episode.title} />
-                        )) }
+                        <img src={episode.epiToon.fileUri} alt={episode.epiTitle} />
                     </div>
                 </div>
             ) : (
                 <span>LOADING...</span>
             ) }
             </div>
-        </div>
+
         )
     }
 }

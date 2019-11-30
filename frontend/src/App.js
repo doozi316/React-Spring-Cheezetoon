@@ -38,7 +38,8 @@ class App extends Component {
         this.state = {
           currentUser: null,
           isAuthenticated: false,
-          isLoading: false
+          isLoading: false,
+          role: null
         }
         this.handleLogout = this.handleLogout.bind(this);
         this.loadCurrentUser = this.loadCurrentUser.bind(this);
@@ -58,9 +59,12 @@ class App extends Component {
         getCurrentUser()
         .then(response => {
           this.setState({
+            role : response.authorities[0].authority,
             currentUser: response,
             isAuthenticated: true,
             isLoading: false
+          }, function(){
+            console.log(this.state.role);
           });
         }).catch(error => {
           this.setState({
@@ -78,7 +82,8 @@ class App extends Component {
     
         this.setState({
           currentUser: null,
-          isAuthenticated: false
+          isAuthenticated: false,
+          role:null
         });
     
         this.props.history.push(redirectTo);
@@ -106,7 +111,7 @@ class App extends Component {
             <Layout className="app-container">
                 <AppHeader isAuthenticated={this.state.isAuthenticated} 
                     currentUser={this.state.currentUser} 
-                    onLogout={this.handleLogout} />
+                    onLogout={this.handleLogout} role={this.state.role}/>
 
             <Content className="app-content">
                 <div className="container">

@@ -4,7 +4,6 @@ import com.example.cheezetoon.exception.ResourceNotFoundException;
 import com.example.cheezetoon.model.User;
 import com.example.cheezetoon.payload.UserIdentityAvailability;
 import com.example.cheezetoon.payload.UserProfile;
-import com.example.cheezetoon.payload.UserSummary;
 import com.example.cheezetoon.repository.UserRepository;
 import com.example.cheezetoon.security.CurrentUser;
 import com.example.cheezetoon.security.UserPrincipal;
@@ -25,11 +24,12 @@ public class UserController{
     private UserRepository userRepository;
 
     @GetMapping("/user/me")
-    @PreAuthorize("hasRole('ADMIN')")
-    public UserSummary getCurrentUser(@CurrentUser UserPrincipal currentUser) {
-        UserSummary userSummary = new UserSummary(currentUser.getId(), currentUser.getUsername(), currentUser.getName());
-        return userSummary;
+    public UserPrincipal getCurrentUser(@CurrentUser UserPrincipal currentUser) {
+        UserPrincipal userPrincipal = new UserPrincipal(currentUser.getId(), currentUser.getUsername(), currentUser.getName(), currentUser.getAuthorities());
+        return userPrincipal;
     }
+
+
     
       @GetMapping("/user/checkUsernameAvailability")
     public UserIdentityAvailability checkUsernameAvailability(@RequestParam(value = "username") String username) {

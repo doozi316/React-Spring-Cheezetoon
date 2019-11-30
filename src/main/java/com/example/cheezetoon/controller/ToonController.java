@@ -35,7 +35,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-@PreAuthorize("hasRole('ADMIN')")
+
 @RequestMapping("/api")
 @RestController
 public class ToonController {
@@ -67,7 +67,7 @@ public class ToonController {
     private EpiToonRepository epiToonRepository;
     
     // 새 웹툰 등록
-    
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping(value = "/newAdd", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
     public Toon newAdd(@RequestParam("title") String title, @RequestParam("artist") String artist,
             @RequestParam("day") String day, @RequestParam("genre") String genre,
@@ -89,6 +89,7 @@ public class ToonController {
     }
 
     // 새 에피소드 등록
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping(value = "/newEpi", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
     public Episode newEpi(@RequestParam("epiTitle") String epiTitle, @RequestParam("toonId") Toon toon, @RequestParam("webtoonId") Integer webtoonId,
             @RequestParam("eFile") MultipartFile eFile, @RequestParam("mFile") MultipartFile mFile) {
@@ -114,7 +115,7 @@ public class ToonController {
 
     
     // 새 에피소드 등록을 위한 webtoonId 값 가져오기
-    
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/getToonIdAndName")
     public List<Map<String, Object>> getTIAN() {
         return toonRepository.getToonIdAndName();
@@ -126,39 +127,45 @@ public class ToonController {
         return toonRepository.findAll();
     }
 
-    
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/getEpi/{id}")
-    public Collection<Episode> getEpiById(@PathVariable int id) {
+    public Collection<Episode> getEpi(@PathVariable int id) {
         return episodeRepository.getEpi(id);
     }
 
-    
+    @GetMapping("/getEpiById/{id}")
+    public Optional<Episode> getEpiById(@PathVariable int id) {
+        return episodeRepository.findById(id);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/getToonById/{id}")
     public Optional<Toon> getToonById(@PathVariable int id) {
         return toonRepository.findById(id);
     }
 
 
-    
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/getToonThumbnailById/{id}")
     public Optional<ToonThumbnail> getToonThumbnailById(@PathVariable int id) {
         return toonThumbnailRepository.getToonThumbnailByID(id);
     }
 
-    
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/deleteToonThumbnail/{id}")
     public void deleteToonThumbnail(@PathVariable Integer id) {
         toonThumbnailRepository.deleteToonThumbnail(id);
     }
 
     // 기존 웹툰 삭제
-    
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/deleteToon/{id}")
     public void deleteToon(@PathVariable Integer id) {
         toonRepository.deleteById(id);
     }
 
     //기존 에피소드 삭제
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/deleteEpi/{id}")
     public void deleteEpi(@PathVariable Integer id) {
         episodeRepository.deleteById(id);
@@ -166,6 +173,7 @@ public class ToonController {
 
     //기존 에피소드 수정을 위해 한 에피소드 가져오기
     @GetMapping("/getEditEpi/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public Optional<Episode> getEditEpiById(@PathVariable int id){
         return episodeRepository.findById(id);
 
@@ -173,12 +181,14 @@ public class ToonController {
 
     //에피소드 수정 용 웹툰 타이틀 가져오기
     @GetMapping("/getToonTitle/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public Optional<Toon> getToonTitle(@PathVariable int id){
         return toonRepository.findById(id);
     }
 
 
     // 수정한 웹툰 업로드
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping(value = "/uploadEditToon/{id}", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
     public Toon uploadEditToon(@PathVariable int id, @RequestParam("title") String title, @RequestParam("artist") String artist,
             @RequestParam("day") String day, @RequestParam("genre") String genre,

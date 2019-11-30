@@ -20,4 +20,7 @@ public interface ToonThumbnailRepository extends JpaRepository<ToonThumbnail, In
     
     @Query(value="Select * from toon_thumbnail t where t.toon_no = ?1", nativeQuery = true)
     Optional<ToonThumbnail> getToonThumbnailByID(int id);
+
+    @Query(value="Select toon_no, file_uri from toon_thumbnail", nativeQuery=true)
+    Optional<ToonThumbnail> getToonThumbnail();
 }
