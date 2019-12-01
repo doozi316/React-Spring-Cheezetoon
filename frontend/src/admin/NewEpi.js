@@ -41,25 +41,19 @@ class NewEpi extends Component {
     loadToonInfo() {
         fetchToonInfo()
             .then((res) => {
-                this.setState({toons: res}, function(){
-                    console.log(this.state)
-                })
+                this.setState({toons: res})
             });
     }
 
     //thumbnail 선택 시
     onChangeThumbnail=({ fileList })=> {
-        this.setState({ thumbnail:fileList }, function(){
-            console.log(this.state)
-        })
+        this.setState({ thumbnail:fileList })
     }
 
 
     //main 선택 시
     onChangeMain=({ fileList })=> {
-        this.setState({ main : fileList }, function(){
-            console.log(this.state)
-        })
+        this.setState({ main : fileList })
     }
 
     // submit

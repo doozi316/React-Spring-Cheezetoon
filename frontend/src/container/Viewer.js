@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import {fetchEpiById} from '../util/APIAdmin';
-import { Form, Button, Input, Comment, List} from 'antd';
+import { Form, Button, Input, Comment, List,  notification} from 'antd';
 import "./Viewer.css";
-import { uploadComment, getComment, deleteComment} from '../util/APIUtils';
+import { uploadComment, getComment, deleteComment, uploadEditComment} from '../util/APIUtils';
 const { TextArea } = Input;
 
 class Viewer extends Component{
@@ -13,7 +13,8 @@ class Viewer extends Component{
             episode : {},
             comment : '',
             username : this.props.username,
-            comments :[]
+            comments :[],
+            showInput:false
         }
         this.uploadComment = this.uploadComment.bind(this);
     }
@@ -38,13 +39,38 @@ class Viewer extends Component{
     }
 
     onChange=(e)=>{
-        this.setState({comment:e.target.value}, function(){
-            console.log(this.state.comment);
-        })
+        this.setState({comment:e.target.value});
+    }
+
+    onEditChange=(e)=>{
+        this.setState({comment:e.target.value});
     }
 
     uploadComment(){
         uploadComment(parseInt(this.props.match.params.episodeId, 10),this.state.username,this.state.comment)
+    }
+
+    editComment(id){
+        try {
+            uploadEditComment(id, this.state.username, this.state.comment)
+            
+            notification.success({
+                message: 'Cheeze Toon',
+                description: "정상적으로 저장되었습니다.",
+            });
+
+        } catch(error) {
+                notification.error({
+                    message: 'Cheeze Toon',
+                    description: error.message || '다시 시도해주세요.'
+                });
+            }
+    }
+
+    onEdit(){
+        this.setState({
+            showInput:true
+        })
     }
 
     componentDidMount(){
@@ -117,7 +143,21 @@ class Viewer extends Component{
                             />
                             {item.user==this.state.username ? 
                             <div>
-                                <Button>수정</Button>
+                                <Button onClick={this.onEdit}>수정</Button>
+                                {/* 리스트 위치파악하기 */}
+                                {this.state.showInput?
+                                <div>
+                                    <Form onSubmit={this.editComment}>
+                                        <Form.Item>
+                                            <TextArea rows={4} onChange={()=>this.onEditChange(item.cno)} value={item.comment} /> 
+                                        </Form.Item>
+                                        <Form.Item>
+                                            <Button type="primary" className="commentButton" htmlType="submit" type="primary">
+                                            Add Comment
+                                        </Button>
+                                        </Form.Item>
+                                    </Form>
+                                </div> : null}
                                 <Button onClick={()=>this.onDelete(item.cno)}>삭제</Button>
                             </div> : null}
                         </li>

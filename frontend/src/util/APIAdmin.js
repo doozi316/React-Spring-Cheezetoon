@@ -172,7 +172,6 @@ export function fetchToonThumbnailById(id) {
 }
 
 
-
 export function uploadEditToon(id, title, artist, day, genre, fileList) {
     const formData = new FormData();
     formData.append('title', title);
