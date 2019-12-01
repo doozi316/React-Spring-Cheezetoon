@@ -17,3 +17,10 @@
     margin-bottom:30px;
     border-bottom: 1px solid lightgray;
 }
+
+.comment_container{
+    width:800px;
+    margin: 0 auto;
+    padding-bottom:100px;
+    
+}

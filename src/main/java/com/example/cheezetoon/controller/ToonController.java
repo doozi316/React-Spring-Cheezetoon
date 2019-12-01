@@ -6,11 +6,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import com.example.cheezetoon.model.Comment;
 import com.example.cheezetoon.model.EpiThumbnail;
 import com.example.cheezetoon.model.EpiToon;
 import com.example.cheezetoon.model.Episode;
 import com.example.cheezetoon.model.Toon;
 import com.example.cheezetoon.model.ToonThumbnail;
+import com.example.cheezetoon.repository.CommentRepository;
 import com.example.cheezetoon.repository.EpiThumbnailRepository;
 import com.example.cheezetoon.repository.EpiToonRepository;
 import com.example.cheezetoon.repository.EpisodeRepository;
@@ -65,6 +67,9 @@ public class ToonController {
 
     @Autowired
     private EpiToonRepository epiToonRepository;
+
+    @Autowired
+    private CommentRepository commentRepository;
     
     // 새 웹툰 등록
     @PreAuthorize("hasRole('ADMIN')")
@@ -113,7 +118,19 @@ public class ToonController {
 
     }
 
-    
+    // 새 코멘트 등록
+    @PreAuthorize("hasRole('ADMIN')")
+    @PostMapping("/saveComment/{id}")
+    public Episode createComment(@PathVariable int id, @RequestParam("user") String user, @RequestParam("comment") String comment) {
+        Episode epi = episodeRepository.findById(id).get();
+        Comment com = new Comment(user, comment);
+        com.setEpisode(epi);
+        
+        epi.getComments().add(com);
+        return episodeRepository.save(epi);
+    }
+
+
     // 새 에피소드 등록을 위한 webtoonId 값 가져오기
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/getToonIdAndName")
@@ -133,6 +150,11 @@ public class ToonController {
         return episodeRepository.getEpi(id);
     }
 
+    @GetMapping("/getComment/{id}")
+    public Collection<Comment> getComment(@PathVariable int id) {
+        return commentRepository.getComment(id);
+    }
+    
     @GetMapping("/getEpiById/{id}")
     public Optional<Episode> getEpiById(@PathVariable int id) {
         return episodeRepository.findById(id);
@@ -162,6 +184,12 @@ public class ToonController {
     @DeleteMapping("/deleteToon/{id}")
     public void deleteToon(@PathVariable Integer id) {
         toonRepository.deleteById(id);
+    }
+
+    // 특정 코멘트 삭제
+    @DeleteMapping("/deleteComment/{id}")
+    public void deleteCommen(@PathVariable Integer id){
+        commentRepository.deleteById(id);
     }
 
     //기존 에피소드 삭제

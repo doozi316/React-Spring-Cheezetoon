@@ -103,7 +103,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
                         .permitAll() // 위 경로 누구나 접근가능
                     .antMatchers(HttpMethod.GET, "/api/users/**", "/api/getToon/**", "/api/getToonThumbnail") //api/users로 시작하는 GET요청 리소스 누구나 접근 가능
                         .permitAll()
-                    .antMatchers(HttpMethod.POST, "/newAdd", "/newEpi", "/testAdd") 
+                    .antMatchers(HttpMethod.POST, "/newAdd", "/saveComment/**", "/testAdd") 
                         .permitAll()
                     .antMatchers(HttpMethod.PUT, "/deleteToonThumbnail/**", "/putEdit/**", "/uploadEditEpi/**", "/uploadEditEpiExceptTaM/**") 
                         .permitAll()  

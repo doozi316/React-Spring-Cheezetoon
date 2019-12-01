@@ -39,7 +39,8 @@ class App extends Component {
           currentUser: null,
           isAuthenticated: false,
           isLoading: false,
-          role: null
+          role: null,
+          username : null
         }
         this.handleLogout = this.handleLogout.bind(this);
         this.loadCurrentUser = this.loadCurrentUser.bind(this);
@@ -62,9 +63,10 @@ class App extends Component {
             role : response.authorities[0].authority,
             currentUser: response,
             isAuthenticated: true,
-            isLoading: false
+            isLoading: false,
+            username : response.username
           }, function(){
-            console.log(this.state.role);
+            console.log(this.state);
           });
         }).catch(error => {
           this.setState({
@@ -83,7 +85,8 @@ class App extends Component {
         this.setState({
           currentUser: null,
           isAuthenticated: false,
-          role:null
+          role:null,
+          username: null
         });
     
         this.props.history.push(redirectTo);
@@ -119,7 +122,8 @@ class App extends Component {
                         <Route exact path="/" component={Main} />
                         {/* ":" 뒤에 있는 것은 prams */}
                         <Route path="/webtoon/:webtoonId" component={WebtoonHome} /> 
-                        <Route path="/viewer/:episodeId" component={Viewer} />
+                        <Route path="/viewer/:episodeId"
+                        render={(props) => <Viewer username={this.state.username} {...props} />}></Route>
                         <Route path="/login" 
                         render={(props) => <Login onLogin={this.handleLogin} {...props} />}></Route>
                         <Route path="/signup" component={Signup}></Route>

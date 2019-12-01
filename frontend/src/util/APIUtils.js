@@ -23,6 +23,21 @@ const request = (options) => {
     );
 };
 
+
+const deleteRequest = (options) => {
+    const headers = new Headers()
+
+    if(localStorage.getItem(ACCESS_TOKEN)) {
+        headers.append('Authorization', 'Bearer ' + localStorage.getItem(ACCESS_TOKEN))
+    }
+
+    const defaults = {headers: headers};
+    options = Object.assign({}, defaults, options);
+
+    return fetch(options.url, options)
+}
+
+
 export function login(loginRequest) {
     return request({
         url: API_BASE_URL + "/auth/signin",
@@ -72,4 +87,27 @@ export function getUserProfile(username) {
     });
 }
 
+export function uploadComment(id, username, comment){
+    const formData = new FormData();
+    formData.append('user', username);
+    formData.append('comment', comment);
+    return request({
+        url: API_BASE_URL + "/saveComment/" + id,
+        method: 'POST',
+        body: formData
+    });
+}
 
+export function getComment(id){
+    return request({
+        url : API_BASE_URL + "/getComment/" + id,
+        method: 'GET'
+    });
+}
+
+export function deleteComment(id) {
+    return deleteRequest({
+        url: API_BASE_URL + "/deleteComment/" + id,
+        method: 'DELETE'
+    });
+}

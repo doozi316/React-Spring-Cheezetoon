@@ -1,5 +1,8 @@
 package com.example.cheezetoon.model;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -56,6 +60,12 @@ public class Episode extends DateAudit {
             orphanRemoval = true,
             mappedBy = "episode")
     private EpiToon epiToon;
+
+    @JsonManagedReference
+    @OneToMany(fetch=FetchType.LAZY,
+            cascade = CascadeType.ALL,
+            mappedBy="episode")
+    private Set<Comment> comments = new HashSet<>();
 
     public Episode(){
         
