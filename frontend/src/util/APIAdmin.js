@@ -268,3 +268,14 @@ export function uploadEditComment(id, comment){
         body : formData
     })
 }
+
+export function uploadRate(id, username, rate){
+    const formData = new FormData();
+    formData.append('rate', rate);
+    formData.append('user', username);
+    return request({
+        url:API_BASE_URL + "/uploadRate/" + id,
+        method: 'PUT',
+        body : formData
+    })
+}

@@ -25,6 +25,13 @@
     
 }
 
+.rating_container{
+    margin : 10px;
+}
+
+.rating_container Button{
+    margin-left : 10px;
+}
 .editForm-container{
     margin-top:30px;
 }

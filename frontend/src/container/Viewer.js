@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import {fetchEpiById, uploadComment, uploadEditComment} from '../util/APIAdmin';
-import { Form, Button, Input, Comment, List,  notification} from 'antd';
+import {fetchEpiById, uploadComment, uploadEditComment, uploadRate} from '../util/APIAdmin';
+import { Form, Button, Input, Comment, List, Rate} from 'antd';
 import "./Viewer.css";
 import { getComment, deleteComment} from '../util/APIUtils';
 const { TextArea } = Input;
@@ -16,6 +16,7 @@ class Viewer extends Component{
             comments :[],
             cno:null,
             editComment:'',
+            rate : null,
             showInput:false
         }
         this.uploadComment = this.uploadComment.bind(this);
@@ -24,6 +25,8 @@ class Viewer extends Component{
         this.onEditChange = this.onEditChange.bind(this);
         this.editComment = this.editComment.bind(this);
         this._getEpisodeList = this._getEpisodeList.bind(this);
+        this.handleRate =  this.handleRate.bind(this);
+        this.uploadRate = this.uploadRate.bind(this);
     }
 
     componentDidMount(){
@@ -37,8 +40,6 @@ class Viewer extends Component{
             .then(res => {
                 this.setState({
                     episode : res
-                }, function(){
-                    console.log(this.state);
                 });
             })
             .catch(error => {
@@ -79,19 +80,37 @@ class Viewer extends Component{
             .then((res) => {
                 this.setState({
                     comments : res
-                    }, function(){
-                    console.log(this.state)
-                })
+                    })
         });
     }
 
     onDelete = (cno) =>{
         deleteComment(cno)
             .then(res => {
-                this.setState({comments:this.state.comments.filter(comment => comment.cno !== cno)}, function(){
-                    console.log(this.state)
-                })
+                this.setState({comments:this.state.comments.filter(comment => comment.cno !== cno)})
             })
+    }
+
+    handleRate = value =>{
+        this.setState({rate:value},function(){
+            console.log(this.state.rate)
+        } );
+    }
+
+    uploadRate(){
+        try{
+            uploadRate(parseInt(this.props.match.params.episodeId, 10), this.state.username, this.state.rate)
+            notification.success({
+                message: 'Cheeze Toon',
+                description: "정상적으로 저장되었습니다.",
+              });
+        } catch(error) {
+            notification.error({
+                message: 'Cheeze Toon',
+                description: error.message || '다시 시도해주세요.'
+            });
+        }
+        
     }
     
     render(){
@@ -99,22 +118,27 @@ class Viewer extends Component{
         const episode = this.state.episode;
         return (
             <div>
-            <div className="wrap_viewer">
-                { episode.eno ? (
-                    <div>
-                        <div className="top_viewer">
-                            {episode.epiTitle}
-                            
+                <div className="wrap_viewer">
+                    { episode.eno ? (
+                        <div>
+                            <div className="top_viewer">
+                                {episode.epiTitle}
+                                
+                            </div>
+                            <div className="wrap_images">
+                                <img src={episode.epiToon.fileUri} alt={episode.epiTitle} />
+                            </div>
                         </div>
-                        <div className="wrap_images">
-                            <img src={episode.epiToon.fileUri} alt={episode.epiTitle} />
-                        </div>
-                    </div>
-                ) : (
-                    <span>LOADING...</span>
-                ) }
-            </div>
+                    ) : (
+                        <span>LOADING...</span>
+                    ) }
+                </div>
+                
                 <div className="comment_container">
+                    <div className="rating_container">
+                        <Rate allowHalf onChange={this.handleRate} value={this.state.rate}/>
+                        <Button type="primary" size="small" onClick={this.uploadRate}>별점 등록</Button>
+                    </div>
                     <Form onSubmit={this.uploadComment}>
                         <Form.Item>
                             <TextArea rows={4} onChange={this.onChange} value={this.state.comment} />
