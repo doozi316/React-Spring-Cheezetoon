@@ -121,7 +121,8 @@ class App extends Component {
                   <Switch>
                         <Route exact path="/" component={Main} />
                         {/* ":" 뒤에 있는 것은 prams */}
-                        <Route path="/webtoon/:webtoonId" component={WebtoonHome} /> 
+                        <Route path="/webtoon/:webtoonId" 
+                        render={(props) => <WebtoonHome username={this.state.username} {...props} />}></Route>
                         <Route path="/viewer/:episodeId"
                         render={(props) => <Viewer username={this.state.username} {...props} />}></Route>
                         <Route path="/login" 

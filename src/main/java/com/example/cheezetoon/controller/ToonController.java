@@ -10,6 +10,7 @@ import com.example.cheezetoon.model.Comment;
 import com.example.cheezetoon.model.EpiThumbnail;
 import com.example.cheezetoon.model.EpiToon;
 import com.example.cheezetoon.model.Episode;
+import com.example.cheezetoon.model.Fav;
 import com.example.cheezetoon.model.Rate;
 import com.example.cheezetoon.model.Toon;
 import com.example.cheezetoon.model.ToonThumbnail;
@@ -17,6 +18,7 @@ import com.example.cheezetoon.repository.CommentRepository;
 import com.example.cheezetoon.repository.EpiThumbnailRepository;
 import com.example.cheezetoon.repository.EpiToonRepository;
 import com.example.cheezetoon.repository.EpisodeRepository;
+import com.example.cheezetoon.repository.FavRepository;
 import com.example.cheezetoon.repository.RateRepository;
 import com.example.cheezetoon.repository.ToonRepository;
 import com.example.cheezetoon.repository.ToonThumbnailRepository;
@@ -75,6 +77,9 @@ public class ToonController {
 
     @Autowired
     private RateRepository rateRepository;
+
+    @Autowired
+    private FavRepository favRepository;
     
     // 새 웹툰 등록
     @PreAuthorize("hasRole('ADMIN')")
@@ -134,6 +139,29 @@ public class ToonController {
         return episodeRepository.save(epi);
     }
     
+    // 선호작품 등록
+    @PostMapping("/saveFav/{id}")
+    public Toon saveFav(@PathVariable int id, @RequestParam("user") String user, @RequestParam("title")String title){
+        Toon toon = toonRepository.findById(id).get();
+        Fav fav = new Fav(user, title);
+        fav.setToon(toon);
+        toon.getFav().add(fav);
+        return toonRepository.save(toon);
+
+    }
+
+    // 선호작품 삭제
+    @DeleteMapping("/deleteFav/{id}/{user}")
+    public void deleteFav(@PathVariable("id") int id, @PathVariable("user") String user){
+        favRepository.deleteFav(id, user);
+    }
+
+    // 선호작품 가져오기
+    @GetMapping("/getFav/{id}/{user}")
+    public Optional<Fav> getFav(@PathVariable("id") int id, @PathVariable("user") String user){
+        return favRepository.getFav(id, user);
+    }
+
     //수정한 댓글 업로드
     @PutMapping("/uploadEditComment/{id}")
     public Comment uploadEditComment(@PathVariable int id, @RequestParam("comment") String comment){
@@ -397,4 +425,6 @@ public class ToonController {
     public Double getAvgRate(@PathVariable int id){
         return rateRepository.getAvgRate(id);
     }
+
+    
 }

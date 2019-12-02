@@ -9,7 +9,8 @@ class WebtoonHome extends Component{
 
         this.state = {
             webtoon : {}, //웹툰 상세 객체
-            episodeList : [] //에피소드 리스트
+            episodeList : [], //에피소드 리스트
+            username : this.props.username
         };
     }
 
@@ -55,7 +56,7 @@ class WebtoonHome extends Component{
             <div>
                 <main>
                 { this.state.webtoon.tno ? (
-                    <WebtoonInfo webtoon={this.state.webtoon} />
+                    <WebtoonInfo webtoon={this.state.webtoon} username={this.state.username}/>
                 ) : (
                     <span>LOADING...</span>
                 ) }

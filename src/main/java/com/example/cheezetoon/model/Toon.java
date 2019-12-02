@@ -52,6 +52,11 @@ public class Toon extends DateAudit {
             mappedBy = "toon")
     private Set<Episode> episode = new HashSet<>();
 
+    @JsonManagedReference
+    @OneToMany(fetch=FetchType.LAZY,
+            cascade = CascadeType.ALL,
+            mappedBy = "toon")
+    private Set<Fav> fav = new HashSet<>();
 
     public Toon(){
 

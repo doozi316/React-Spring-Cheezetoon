@@ -290,3 +290,28 @@ export function uploadEditRate(id, username, rate){
         body : formData
     })
 }
+
+export function saveFav(id, user, title){
+    const formData = new FormData();
+    formData.append('user', user);
+    formData.append('title', title);
+    return request({
+        url:API_BASE_URL + "/saveFav/" + id,
+        method: 'POST',
+        body : formData
+    })
+}
+
+export function deleteFav(id, user) {
+    return deleteRequest({
+        url: API_BASE_URL + "/deleteFav/" + id+"/" + user,
+        method: 'DELETE'
+    });
+}
+
+export function fetchFav(id, user){
+    return request({
+        url : API_BASE_URL + "/getFav/" + id + "/" + user,
+        method: 'GET'
+    });
+}

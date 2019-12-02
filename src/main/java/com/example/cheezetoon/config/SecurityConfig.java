@@ -101,13 +101,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
                         .permitAll()
                     .antMatchers("/api/user/checkUsernameAvailability", "/api/user/checkEmailAvailability")
                         .permitAll() // 위 경로 누구나 접근가능
-                    .antMatchers(HttpMethod.GET, "/api/users/**", "/api/getToon/**", "/api/getToonById/**", "/api/getEpi/**", "/api/getComment/**", "/api/getEpiById/**", "/api/getAvgRate/**") //api/users로 시작하는 GET요청 리소스 누구나 접근 가능
+                    .antMatchers(HttpMethod.GET, "/api/users/**", "/api/getToon/**", "/api/getToonById/**", "/api/getEpi/**", "/api/getComment/**", "/api/getEpiById/**", "/api/getAvgRate/**", "/getFav/**") 
                         .permitAll()
-                    .antMatchers(HttpMethod.POST, "/newAdd", "/saveComment/**", "/uploadRate/**") 
+                    .antMatchers(HttpMethod.POST, "/newAdd", "/saveComment/**", "/uploadRate/**", "/saveFav/**") 
                         .permitAll()
                     .antMatchers(HttpMethod.PUT, "/deleteToonThumbnail/**", "/putEdit/**", "/uploadRate/**", "/uploadEditRate/**") 
                         .permitAll()  
-                    .antMatchers(HttpMethod.DELETE, "/deleteToon/**") 
+                    .antMatchers(HttpMethod.DELETE, "/deleteToon/**", "/deleteFav/**") 
                         .permitAll()   
                     .anyRequest()
                         .authenticated(); //그 외 나머지 요청은 모두 인증된 회원만 접근가능
