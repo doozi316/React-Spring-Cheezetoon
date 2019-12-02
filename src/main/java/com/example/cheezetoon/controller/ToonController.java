@@ -10,12 +10,14 @@ import com.example.cheezetoon.model.Comment;
 import com.example.cheezetoon.model.EpiThumbnail;
 import com.example.cheezetoon.model.EpiToon;
 import com.example.cheezetoon.model.Episode;
+import com.example.cheezetoon.model.Rate;
 import com.example.cheezetoon.model.Toon;
 import com.example.cheezetoon.model.ToonThumbnail;
 import com.example.cheezetoon.repository.CommentRepository;
 import com.example.cheezetoon.repository.EpiThumbnailRepository;
 import com.example.cheezetoon.repository.EpiToonRepository;
 import com.example.cheezetoon.repository.EpisodeRepository;
+import com.example.cheezetoon.repository.RateRepository;
 import com.example.cheezetoon.repository.ToonRepository;
 import com.example.cheezetoon.repository.ToonThumbnailRepository;
 import com.example.cheezetoon.service.EpiThumbnailService;
@@ -70,6 +72,9 @@ public class ToonController {
 
     @Autowired
     private CommentRepository commentRepository;
+
+    @Autowired
+    private RateRepository rateRepository;
     
     // 새 웹툰 등록
     @PreAuthorize("hasRole('ADMIN')")
@@ -119,7 +124,6 @@ public class ToonController {
     }
 
     // 새 코멘트 등록
-    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/saveComment/{id}")
     public Episode createComment(@PathVariable int id, @RequestParam("user") String user, @RequestParam("comment") String comment) {
         Episode epi = episodeRepository.findById(id).get();
@@ -138,8 +142,31 @@ public class ToonController {
         return commentRepository.save(com);
     }
 
+    // Rate 등록
+    @PostMapping("/uploadRate/{id}")
+    public Episode uploadRate(@PathVariable int id, @RequestParam("user") String user, @RequestParam("rate") Integer rate){
+        Episode epi = episodeRepository.findById(id).get();
+        Rate r = new Rate(user, rate);
+        r.setEpisode(epi);
+        epi.getRate().add(r);
+        return episodeRepository.save(epi);
+    }
+
+    // 기존 Rate 가져오기
+    @GetMapping(value={"/fetchRate/{id}/{user}"})
+    public Optional<Rate> fetchRate(@PathVariable("id") int id, @PathVariable("user") String user){
+        return rateRepository.getRateByEpiId(id, user);
+    }
+
+    // Rate 수정
+    @PutMapping("/uploadEditRate/{id}")
+    public Rate uploadEditRate(@PathVariable int id,@RequestParam("user") String user, @RequestParam("rate") Integer rate){
+        Rate r = rateRepository.getRateByEpiId(id, user).get();
+        r.setRate(rate);
+        return rateRepository.save(r);
+    }
+
     // 새 에피소드 등록을 위한 webtoonId 값 가져오기
-    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/getToonIdAndName")
     public List<Map<String, Object>> getTIAN() {
         return toonRepository.getToonIdAndName();
@@ -151,7 +178,6 @@ public class ToonController {
         return toonRepository.findAll();
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/getEpi/{id}")
     public Collection<Episode> getEpi(@PathVariable int id) {
         return episodeRepository.getEpi(id);
@@ -167,20 +193,17 @@ public class ToonController {
         return episodeRepository.findById(id);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/getToonById/{id}")
     public Optional<Toon> getToonById(@PathVariable int id) {
         return toonRepository.findById(id);
     }
 
 
-    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/getToonThumbnailById/{id}")
     public Optional<ToonThumbnail> getToonThumbnailById(@PathVariable int id) {
         return toonThumbnailRepository.getToonThumbnailByID(id);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/deleteToonThumbnail/{id}")
     public void deleteToonThumbnail(@PathVariable Integer id) {
         toonThumbnailRepository.deleteToonThumbnail(id);
@@ -208,7 +231,6 @@ public class ToonController {
 
     //기존 에피소드 수정을 위해 한 에피소드 가져오기
     @GetMapping("/getEditEpi/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
     public Optional<Episode> getEditEpiById(@PathVariable int id){
         return episodeRepository.findById(id);
 
@@ -216,7 +238,6 @@ public class ToonController {
 
     //에피소드 수정 용 웹툰 타이틀 가져오기
     @GetMapping("/getToonTitle/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
     public Optional<Toon> getToonTitle(@PathVariable int id){
         return toonRepository.findById(id);
     }
@@ -370,5 +391,10 @@ public class ToonController {
     @GetMapping("/getEpiToon/{id}")
     public Optional<EpiToon> getEpiToon(@PathVariable int id) {
         return epiToonRepository.getEpiToon(id);
+    }
+
+    @GetMapping("/getAvgRate/{id}")
+    public Double getAvgRate(@PathVariable int id){
+        return rateRepository.getAvgRate(id);
     }
 }

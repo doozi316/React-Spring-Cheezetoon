@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import {fetchEpiById, uploadComment, uploadEditComment, uploadRate} from '../util/APIAdmin';
-import { Form, Button, Input, Comment, List, Rate} from 'antd';
+import {fetchEpiById, uploadComment, uploadEditComment, uploadRate, uploadEditRate} from '../util/APIAdmin';
+import { Form, Button, Input, Comment, List, Rate, notification} from 'antd';
 import "./Viewer.css";
-import { getComment, deleteComment} from '../util/APIUtils';
+import { getComment, deleteComment, fetchRate, getAvgRate} from '../util/APIUtils';
 const { TextArea } = Input;
 
 class Viewer extends Component{
@@ -17,6 +17,8 @@ class Viewer extends Component{
             cno:null,
             editComment:'',
             rate : null,
+            fetchRate:null,
+            avgRate:null,
             showInput:false
         }
         this.uploadComment = this.uploadComment.bind(this);
@@ -27,13 +29,30 @@ class Viewer extends Component{
         this._getEpisodeList = this._getEpisodeList.bind(this);
         this.handleRate =  this.handleRate.bind(this);
         this.uploadRate = this.uploadRate.bind(this);
+        this.loadRate= this.loadRate.bind(this);
+        this.editRate = this.editRate.bind(this);
+        this.handleFetchRate = this.handleFetchRate.bind(this);
+        this.loadAvg = this.loadAvg.bind(this);
     }
 
     componentDidMount(){
         this._getEpisodeList();
         this.loadComment();
+        this.loadRate();
+        this.loadAvg();
     }
 
+    loadAvg(){
+        getAvgRate(parseInt(this.props.match.params.episodeId, 10))
+            .then(res => {
+                this.setState({
+                   avgRate : res
+                });
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
     _getEpisodeList(){
     
         fetchEpiById(parseInt(this.props.match.params.episodeId, 10))
@@ -92,14 +111,18 @@ class Viewer extends Component{
     }
 
     handleRate = value =>{
-        this.setState({rate:value},function(){
-            console.log(this.state.rate)
-        } );
+        this.setState({rate:value});
     }
 
+    handleFetchRate = value =>{
+        this.setState({fetchRate:value});
+    }
     uploadRate(){
         try{
             uploadRate(parseInt(this.props.match.params.episodeId, 10), this.state.username, this.state.rate)
+                .then(function(){
+                    window.location.reload();
+                })
             notification.success({
                 message: 'Cheeze Toon',
                 description: "정상적으로 저장되었습니다.",
@@ -113,9 +136,40 @@ class Viewer extends Component{
         
     }
     
+    editRate(){
+        try{
+            uploadEditRate(parseInt(this.props.match.params.episodeId, 10), this.state.username, this.state.fetchRate)
+                .then(function(){
+                    window.location.reload();
+                })
+            notification.success({
+                message: 'Cheeze Toon',
+                description: "정상적으로 저장되었습니다.",
+              });
+        } catch(error) {
+            notification.error({
+                message: 'Cheeze Toon',
+                description: error.message || '다시 시도해주세요.'
+            });
+        }
+    }
+
+    loadRate(){
+        fetchRate(parseInt(this.props.match.params.episodeId, 10), this.state.username)
+            .then(res => {
+                this.setState({
+                    fetchRate : res.rate
+                });
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
+
     render(){
-        console.log(this.state.username);
         const episode = this.state.episode;
+        var num = Number(this.state.avgRate);
+
         return (
             <div>
                 <div className="wrap_viewer">
@@ -135,9 +189,16 @@ class Viewer extends Component{
                 </div>
                 
                 <div className="comment_container">
+                    <div>
+                        <span className="avgRate"> 평점 : </span>
+                        <Rate disabled allowHalf style={{fontSize:36}} value={this.state.avgRate} className="avgStar"/>
+                        {num.toFixed(1)}
+                    </div>
                     <div className="rating_container">
-                        <Rate allowHalf onChange={this.handleRate} value={this.state.rate}/>
-                        <Button type="primary" size="small" onClick={this.uploadRate}>별점 등록</Button>
+                        {this.state.fetchRate!==null ? <Rate onChange={this.handleFetchRate} value={this.state.fetchRate}/> :
+                        <Rate onChange={this.handleRate} value={this.state.rate}/>}
+                        {this.state.fetchRate ? <Button type="primary" size="small" onClick={this.editRate}>별점 수정</Button> :
+                        <Button type="primary" size="small" onClick={this.uploadRate}>별점 등록</Button>}
                     </div>
                     <Form onSubmit={this.uploadComment}>
                         <Form.Item>

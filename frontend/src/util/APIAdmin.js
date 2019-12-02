@@ -275,6 +275,17 @@ export function uploadRate(id, username, rate){
     formData.append('user', username);
     return request({
         url:API_BASE_URL + "/uploadRate/" + id,
+        method: 'POST',
+        body : formData
+    })
+}
+
+export function uploadEditRate(id, username, rate){
+    const formData = new FormData();
+    formData.append('rate', rate);
+    formData.append('user', username);
+    return request({
+        url:API_BASE_URL + "/uploadEditRate/" + id,
         method: 'PUT',
         body : formData
     })

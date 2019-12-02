@@ -112,3 +112,16 @@ export function deleteComment(id) {
     });
 }
 
+export function fetchRate(id, user){
+    return request({
+        url : API_BASE_URL + "/fetchRate/" + id + "/" + user,
+        method: 'GET'
+    });
+}
+
+export function getAvgRate(id){
+    return request({
+        url : API_BASE_URL + "/getAvgRate/" + id,
+        method: 'GET'
+    });
+}

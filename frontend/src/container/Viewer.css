@@ -3,7 +3,6 @@
 
 .wrap_viewer{
     margin: 0 auto;
-    font-family: "Nanum Gothic";
     width:1000px;
     height:100%;
     text-align:center;
@@ -34,4 +33,13 @@
 }
 .editForm-container{
     margin-top:30px;
+}
+
+.avgRate{
+    font-family: "Nanum Gothic";
+    font-size:1.2rem;
+}
+
+.avgStar{
+    margin-right:5px;
 }

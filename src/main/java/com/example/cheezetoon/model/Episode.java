@@ -67,6 +67,12 @@ public class Episode extends DateAudit {
             mappedBy="episode")
     private Set<Comment> comments = new HashSet<>();
 
+    @JsonManagedReference
+    @OneToMany(fetch=FetchType.LAZY,
+            cascade = CascadeType.ALL,
+            mappedBy = "episode")
+    private Set<Rate> rate = new HashSet<>();
+
     public Episode(){
         
     }

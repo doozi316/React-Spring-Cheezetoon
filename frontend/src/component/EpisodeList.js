@@ -30,6 +30,9 @@ class EpisodeList extends Component {
                                         <span className="date_episode">
                                             {`${episode.createdAt.substr(0,10)}`}
                                         </span>
+                                        <span className="avgStar">
+                                            평점 : {Number((Object.values(episode.rate).reduce((acc, current)=> acc + current.rate, 0))/Object.values(episode.rate).length).toFixed(1)}
+                                        </span>
                                     </div>
                                 </Link>
                             </li>
