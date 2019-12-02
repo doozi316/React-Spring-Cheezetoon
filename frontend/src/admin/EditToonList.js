@@ -92,7 +92,7 @@ class EditToonList extends Component {
           ];
         return (
             <div className="editList-container">
-                <Table dataSource={this.state.webtoons} columns={columns} pagination={{ pageSize: 8 }}/>;
+                <Table dataSource={this.state.webtoons} columns={columns} pagination={{ pageSize: 8 }}/>
             </div>
         );
     }

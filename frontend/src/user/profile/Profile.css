@@ -1,0 +1,83 @@
+@import url(http://fonts.googleapis.com/earlyaccess/nanumgothic.css);
+
+.profile_container{
+    font-family: "Nanum Gothic";
+}
+
+.user-profile{
+    margin-bottom : 100px;
+}
+.user-details {
+    margin-bottom: 44px;
+    padding-top: 40px;
+    padding-bottom: 20px;
+    margin: 0 auto;
+    text-align: center;
+    
+}
+
+.user-avatar-circle {
+    width: 120px;
+    height: 120px;
+    border-radius: 60px;
+    line-height: 60px;
+}
+
+.user-avatar-circle > * {
+    line-height: 120px;
+    font-size: 40px;
+    position: relative !important;
+    left: 0 !important;
+}
+
+.user-summary {
+    text-align: center;
+    padding-top: 20px;
+}
+
+
+    .user-details {
+        text-align: left;
+        display: table;
+    }    
+
+    .user-avatar, .user-summary {
+        float: left;
+        text-align: left;
+    }
+
+    .user-summary {
+        padding-top: 0;
+        padding-left: 40px;
+    }
+
+
+.user-summary .full-name {
+    font-size: 30px;
+    font-weight: 600;
+    color: rgba(0,0,0,0.85);
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.user-summary .username {
+    font-size: 20px;
+}
+
+
+.favTable_container{
+    width : 600px;
+    margin-top:30px;
+    margin:0 auto;
+    text-align : center;
+}
+
+.favTitle{
+    font-size:1.3rem;    
+    font-weight: bolder;
+}
+
+.favTitle_container{
+    margin-bottom : 30px;
+}

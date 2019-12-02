@@ -141,25 +141,31 @@ public class ToonController {
     
     // 선호작품 등록
     @PostMapping("/saveFav/{id}")
-    public Toon saveFav(@PathVariable int id, @RequestParam("user") String user, @RequestParam("title")String title){
+    public Toon saveFav(@PathVariable int id, @RequestParam("user") String user, @RequestParam("title")String title, @RequestParam("webtoonId")Integer webtoonId){
         Toon toon = toonRepository.findById(id).get();
-        Fav fav = new Fav(user, title);
+        Fav fav = new Fav(user, title, webtoonId);
         fav.setToon(toon);
         toon.getFav().add(fav);
         return toonRepository.save(toon);
 
     }
 
-    // 선호작품 삭제
+    // webtoonHome 에서 선호작품 삭제
     @DeleteMapping("/deleteFav/{id}/{user}")
     public void deleteFav(@PathVariable("id") int id, @PathVariable("user") String user){
         favRepository.deleteFav(id, user);
     }
 
+    // 선호작품 삭제
+    @DeleteMapping("/deleteFavById/{id}")
+    public void defeFavById(@PathVariable("id") int id){
+        favRepository.deleteById(id);
+    }
+
     // 선호작품 가져오기
-    @GetMapping("/getFav/{id}/{user}")
-    public Optional<Fav> getFav(@PathVariable("id") int id, @PathVariable("user") String user){
-        return favRepository.getFav(id, user);
+    @GetMapping("/getFav/{user}")
+    public Collection<Fav> getFav(@PathVariable("user") String user){
+        return favRepository.getFav(user);
     }
 
     //수정한 댓글 업로드

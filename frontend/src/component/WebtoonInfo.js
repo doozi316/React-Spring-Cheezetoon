@@ -20,7 +20,7 @@ class WebtoonInfo extends Component {
 
     uploadFav(){
             try{
-                saveFav(this.state.webtoon.tno, this.state.username, this.state.webtoon.title)
+                saveFav(this.state.webtoon.tno, this.state.username, this.state.webtoon.title, this.state.webtoon.tno)
                     .then(function(){
                         window.location.reload();
                     })

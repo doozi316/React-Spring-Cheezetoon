@@ -29,6 +29,8 @@ public class Fav extends DateAudit{
 
     private String username;
 
+    private Integer webtoonId;
+
     @JsonBackReference
     @ManyToOne
     @JoinColumn(name="tid")
@@ -38,9 +40,10 @@ public class Fav extends DateAudit{
 
     }
 
-    public Fav(String username, String title){
+    public Fav(String username, String title, Integer webtoonId){
         this.title = title;
         this.username=username;
+        this.webtoonId = webtoonId;
     }
 
 }

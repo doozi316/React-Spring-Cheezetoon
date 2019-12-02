@@ -291,10 +291,11 @@ export function uploadEditRate(id, username, rate){
     })
 }
 
-export function saveFav(id, user, title){
+export function saveFav(id, user, title, webtoonId){
     const formData = new FormData();
     formData.append('user', user);
     formData.append('title', title);
+    formData.append('webtoonId', webtoonId);
     return request({
         url:API_BASE_URL + "/saveFav/" + id,
         method: 'POST',
@@ -309,9 +310,17 @@ export function deleteFav(id, user) {
     });
 }
 
-export function fetchFav(id, user){
+export function deleteFavById(id) {
+    return deleteRequest({
+        url: API_BASE_URL + "/deleteFavById/" + id,
+        method: 'DELETE'
+    });
+}
+
+export function fetchFav(user){
     return request({
-        url : API_BASE_URL + "/getFav/" + id + "/" + user,
+        url : API_BASE_URL + "/getFav/" + user,
         method: 'GET'
     });
 }
+

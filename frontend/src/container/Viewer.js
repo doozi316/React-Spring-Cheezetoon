@@ -212,6 +212,7 @@ class Viewer extends Component{
                     </Form>
                     <div>
                     <List
+                        pagination={{pageSize: 10}}
                         className="comment-list"
                         header={`${this.state.comments.length} replies`}
                         itemLayout="horizontal"

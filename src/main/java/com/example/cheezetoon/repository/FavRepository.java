@@ -1,6 +1,6 @@
 package com.example.cheezetoon.repository;
 
-import java.util.Optional;
+import java.util.Collection;
 
 import javax.transaction.Transactional;
 
@@ -19,6 +19,6 @@ public interface FavRepository extends JpaRepository<Fav, Integer>{
     void deleteFav(Integer id, String user);
 
     
-    @Query(value="Select * from fav f where f.tid=?1 and f.username=?2", nativeQuery=true)
-    Optional<Fav> getFav(Integer id, String user);
+    @Query(value="Select * from fav where username=?1", nativeQuery=true)
+    Collection<Fav> getFav(String user);
 }
