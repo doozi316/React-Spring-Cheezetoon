@@ -247,3 +247,24 @@ export function fetchEpiToon(id) {
         method: 'GET'
     })
 }
+
+export function uploadComment(id, username, comment){
+    const formData = new FormData();
+    formData.append('user', username);
+    formData.append('comment', comment);
+    return request({
+        url: API_BASE_URL + "/saveComment/" + id,
+        method: 'POST',
+        body: formData
+    });
+}
+
+export function uploadEditComment(id, comment){
+    const formData = new FormData();
+    formData.append('comment', comment);
+    return request({
+        url:API_BASE_URL + "/uploadEditComment/" + id,
+        method: 'PUT',
+        body : formData
+    })
+}

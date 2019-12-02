@@ -112,13 +112,3 @@ export function deleteComment(id) {
     });
 }
 
-export function uploadEditComment(id, user, comment){
-    const formData = new FormData();
-    formData.append('user', user);
-    formData.append('comment', comment);
-    return request({
-        url:API_BASE_URL + "/uploadEditComment/" + id,
-        method: 'PUT',
-        body : formData
-    })
-}

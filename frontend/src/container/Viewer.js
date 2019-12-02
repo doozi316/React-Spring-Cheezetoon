@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import {fetchEpiById} from '../util/APIAdmin';
+import {fetchEpiById, uploadComment, uploadEditComment} from '../util/APIAdmin';
 import { Form, Button, Input, Comment, List,  notification} from 'antd';
 import "./Viewer.css";
-import { uploadComment, getComment, deleteComment, uploadEditComment} from '../util/APIUtils';
+import { getComment, deleteComment} from '../util/APIUtils';
 const { TextArea } = Input;
 
 class Viewer extends Component{
@@ -14,13 +14,21 @@ class Viewer extends Component{
             comment : '',
             username : this.props.username,
             comments :[],
+            cno:null,
+            editComment:'',
             showInput:false
         }
         this.uploadComment = this.uploadComment.bind(this);
+        this.onEdit = this.onEdit.bind(this);
+        this.onChange = this.onChange.bind(this);
+        this.onEditChange = this.onEditChange.bind(this);
+        this.editComment = this.editComment.bind(this);
+        this._getEpisodeList = this._getEpisodeList.bind(this);
     }
 
     componentDidMount(){
         this._getEpisodeList();
+        this.loadComment();
     }
 
     _getEpisodeList(){
@@ -30,7 +38,7 @@ class Viewer extends Component{
                 this.setState({
                     episode : res
                 }, function(){
-                    console.log(this.state.episode);
+                    console.log(this.state);
                 });
             })
             .catch(error => {
@@ -43,38 +51,27 @@ class Viewer extends Component{
     }
 
     onEditChange=(e)=>{
-        this.setState({comment:e.target.value});
+        this.setState({editComment:e.target.value});
     }
 
     uploadComment(){
-        uploadComment(parseInt(this.props.match.params.episodeId, 10),this.state.username,this.state.comment)
+        uploadComment(parseInt(this.props.match.params.episodeId, 10), this.state.username, this.state.comment)
     }
 
     editComment(id){
-        try {
-            uploadEditComment(id, this.state.username, this.state.comment)
-            
-            notification.success({
-                message: 'Cheeze Toon',
-                description: "정상적으로 저장되었습니다.",
-            });
-
-        } catch(error) {
-                notification.error({
-                    message: 'Cheeze Toon',
-                    description: error.message || '다시 시도해주세요.'
-                });
-            }
+        uploadEditComment(id, this.state.editComment)
+            .then(res=>(
+                this.setState({showInput:false}, function(){
+                    window.location.reload();
+                })
+            ))
+        
     }
 
     onEdit(){
         this.setState({
             showInput:true
         })
-    }
-
-    componentDidMount(){
-        this.loadComment();
     }
 
     loadComment(){
@@ -146,13 +143,13 @@ class Viewer extends Component{
                                 <Button onClick={this.onEdit}>수정</Button>
                                 {/* 리스트 위치파악하기 */}
                                 {this.state.showInput?
-                                <div>
-                                    <Form onSubmit={this.editComment}>
+                                <div className="editForm-container">
+                                    <Form>
                                         <Form.Item>
-                                            <TextArea rows={4} onChange={()=>this.onEditChange(item.cno)} value={item.comment} /> 
+                                            <TextArea rows={4} onChange={this.onEditChange} defaultValue={item.comment} /> 
                                         </Form.Item>
                                         <Form.Item>
-                                            <Button type="primary" className="commentButton" htmlType="submit" type="primary">
+                                            <Button type="primary" className="commentButton" onClick={()=>this.editComment(item.cno)}>
                                             Add Comment
                                         </Button>
                                         </Form.Item>

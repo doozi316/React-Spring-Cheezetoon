@@ -105,7 +105,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
                         .permitAll()
                     .antMatchers(HttpMethod.POST, "/newAdd", "/saveComment/**", "/testAdd") 
                         .permitAll()
-                    .antMatchers(HttpMethod.PUT, "/deleteToonThumbnail/**", "/putEdit/**", "/uploadEditEpi/**", "/uploadEditEpiExceptTaM/**") 
+                    .antMatchers(HttpMethod.PUT, "/deleteToonThumbnail/**", "/putEdit/**", "/uploadEditEpi/**", "/uploadEditComment/**") 
                         .permitAll()  
                     .antMatchers(HttpMethod.DELETE, "/deleteToon/**") 
                         .permitAll()   

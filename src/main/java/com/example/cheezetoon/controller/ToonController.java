@@ -129,7 +129,14 @@ public class ToonController {
         epi.getComments().add(com);
         return episodeRepository.save(epi);
     }
-
+    
+    //수정한 댓글 업로드
+    @PutMapping("/uploadEditComment/{id}")
+    public Comment uploadEditComment(@PathVariable int id, @RequestParam("comment") String comment){
+        Comment com = commentRepository.findById(id).get();
+        com.setComment(comment);
+        return commentRepository.save(com);
+    }
 
     // 새 에피소드 등록을 위한 webtoonId 값 가져오기
     @PreAuthorize("hasRole('ADMIN')")
@@ -213,6 +220,8 @@ public class ToonController {
     public Optional<Toon> getToonTitle(@PathVariable int id){
         return toonRepository.findById(id);
     }
+
+    
 
 
     // 수정한 웹툰 업로드
