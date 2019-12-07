@@ -305,7 +305,7 @@ export function saveFav(id, user, title, webtoonId){
 
 export function deleteFav(id, user) {
     return deleteRequest({
-        url: API_BASE_URL + "/deleteFav/" + id+"/" + user,
+        url: API_BASE_URL + "/deleteFav/" + id + "/" + user,
         method: 'DELETE'
     });
 }
@@ -324,3 +324,9 @@ export function fetchFav(user){
     });
 }
 
+export function fetchFavById(tno,user){
+    return request({
+        url : API_BASE_URL + "/getFavById/" + tno + "/" + user,
+        method: 'GET'
+    });
+}

@@ -21,4 +21,7 @@ public interface FavRepository extends JpaRepository<Fav, Integer>{
     
     @Query(value="Select * from fav where username=?1", nativeQuery=true)
     Collection<Fav> getFav(String user);
+
+    @Query(value="Select * from fav where webtoon_id=?1 and username=?2", nativeQuery=true)
+    Collection<Fav> getFavById(Integer tno, String user);
 }

@@ -190,9 +190,8 @@ class Viewer extends Component{
                 
                 <div className="comment_container">
                     <div>
-                        <span className="avgRate"> 평점 : </span>
+                        <span className="avgRate"> 평점 : {num.toFixed(1)} </span>
                         <Rate disabled allowHalf style={{fontSize:36}} value={this.state.avgRate} className="avgStar"/>
-                        {num.toFixed(1)}
                     </div>
                     <div className="rating_container">
                         {this.state.fetchRate!==null ? <Rate onChange={this.handleFetchRate} value={this.state.fetchRate}/> :

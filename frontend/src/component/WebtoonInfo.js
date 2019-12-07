@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import "./WebtoonInfo.css";
 import {Button, notification} from 'antd';
-import {saveFav, deleteFav, fetchFav } from '../util/APIAdmin';
+import {saveFav, deleteFav, fetchFavById } from '../util/APIAdmin';
 
 class WebtoonInfo extends Component {
     constructor(props){
@@ -41,10 +41,13 @@ class WebtoonInfo extends Component {
     }
 
     loadFav(){
-        fetchFav(this.state.webtoon.tno, this.state.username)
+        fetchFavById(this.state.webtoon.tno, this.state.username)
             .then(res => {
                 this.setState({
                 fav : res
+                }, function(){
+                    console.log("load");
+                    console.log(this.state.fav);
                 });
             })
             .catch(error => {
@@ -73,7 +76,8 @@ class WebtoonInfo extends Component {
     }
 
     render() {
-        console.log(this.state.username);
+        console.log("뭐야");
+        console.log(this.state.fav);
         return (
             <div className="wrap_webtoon">
                 <img src={this.state.webtoon.toonThumbnail.fileUri} className="img_webtoon" alt={this.state.webtoon.title} />
@@ -81,9 +85,10 @@ class WebtoonInfo extends Component {
                     <strong className="tit_webtoon">{this.state.webtoon.title}</strong>
                     <span className="txt_genre">{this.state.webtoon.genre}</span>
                     <div className="favButton_container">
-                        {this.state.fav ? 
-                        <Button type="primary" onClick={this.deleteFav}>선호작 해제</Button> :
-                        <Button type="primary" onClick={this.uploadFav}>선호작 등록</Button>}
+                        {this.state.fav == null || this.state.fav.length == 0 ? 
+                        <Button type="primary" onClick={this.uploadFav}>선호작 등록</Button> :
+                        <Button type="primary" onClick={this.deleteFav}>선호작 해제</Button> 
+                        }
                     </div>
                 </div>
                 

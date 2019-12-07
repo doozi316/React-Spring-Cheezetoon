@@ -168,6 +168,11 @@ public class ToonController {
         return favRepository.getFav(user);
     }
 
+    @GetMapping("/getFavById/{tno}/{user}")
+    public Collection<Fav> getFav(@PathVariable("tno") Integer tno, @PathVariable("user") String user){
+        return favRepository.getFavById(tno, user);
+    }
+
     //수정한 댓글 업로드
     @PutMapping("/uploadEditComment/{id}")
     public Comment uploadEditComment(@PathVariable int id, @RequestParam("comment") String comment){

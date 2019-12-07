@@ -42,9 +42,9 @@
     color:black;
 }
 
-.avgStar{
+.avgStar_epi{
     float:right;
-    padding-right:230px;
     margin-top:30px;
+    padding-right:240px;
     color:black;
 }
