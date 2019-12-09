@@ -25,7 +25,7 @@ public class UserController{
 
     @GetMapping("/user/me")
     public UserPrincipal getCurrentUser(@CurrentUser UserPrincipal currentUser) {
-        UserPrincipal userPrincipal = new UserPrincipal(currentUser.getId(), currentUser.getUsername(), currentUser.getName(), currentUser.getAuthorities());
+        UserPrincipal userPrincipal = new UserPrincipal(currentUser.getId(), currentUser.getName(), currentUser.getUsername(),  currentUser.getAuthorities());
         return userPrincipal;
     }
 
