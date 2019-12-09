@@ -53,7 +53,7 @@ Spring boot, React.js 프레임워크를 활용한 웹툰 홈페이지 "Cheeze T
 
 <br/><br/>
 
-![](https://github.com/doozi316/React-Spring-Cheezetoon/관리자 페이지.PNG)
+![](https://github.com/doozi316/React-Spring-Cheezetoon/관리자페이지.PNG)
 관리자 페이지 입니다.
 
 <br/><br/>
