@@ -39,6 +39,31 @@ Spring boot, React.js 프레임워크를 활용한 웹툰 홈페이지 "Cheeze T
 <br/>
 <br/>
 
+# 실행 영상
+
+<https://www.youtube.com/watch?v=x7mRTtjsYns&t=7s>
+
+<br/>
+<br/>
+
+# 실행 스크린 샷
+
+![](https://github.com/doozi316/React-Spring-Cheezetoon/메인화면.PNG)
+메인 페이지 입니다.
+
+<br/><br/>
+
+![](https://github.com/doozi316/React-Spring-Cheezetoon/관리자 페이지.PNG)
+관리자 페이지 입니다.
+
+<br/><br/>
+
+![](https://github.com/doozi316/React-Spring-Cheezetoon/홈화면.PNG)
+웹툰 홈화면 입니다.
+
+<br/>
+<br/>
+
 # 프로젝트 진행 중 어려웠던 점
 프레임워크를 활용한 첫 풀스택 개발이다보니, 부족한 지식으로 인해 마주하는 에러들이 어려웠던 점이었습니다. React.js는 노마드 코더의 무료강좌 2강을 듣고 바로 프로젝트에 활용하는 것이어서 깊이 있게 아는 것이 많이 없었습니다.<br/>
 하지만 구현하고자하는 기능들에 대한 레퍼런스를 찾고 학습하다보니, 저절로 실력이 늘게 되었습니다.
