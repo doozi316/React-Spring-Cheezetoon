@@ -103,10 +103,7 @@ create database cheezetoon
 
 3. Mysql 설정
 <br/>
-```
-src/main/resources/application.properties
-``` 
-의 Mysql 설정을 수정하세요.
+src/main/resources/application.properties 의 Mysql 설정을 수정하세요.
 
 <br/>
 
