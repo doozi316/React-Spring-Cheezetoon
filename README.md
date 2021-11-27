@@ -32,16 +32,9 @@ Spring boot, React.js 프레임워크를 활용한 웹툰 홈페이지 "Cheeze T
 <br/>
 
 # 개발 환경
-- 개발환경 : Windows 10 Enterprise x64
-- 개발도구 : vscode, Github
+- 개발환경 : Windows 10
+- 개발도구 : vscode
 - 구성환경 : Spring boot, Spring security, jwt, React.js, React-router, JPA, Hibernate, Mysql, Ant Design(React UI library)
-
-<br/>
-<br/>
-
-# 실행 영상
-
-<https://www.youtube.com/watch?v=x7mRTtjsYns&t=7s>
 
 <br/>
 <br/>
