@@ -57,12 +57,6 @@ Spring boot, React.js 프레임워크를 활용한 웹툰 홈페이지 "Cheeze T
 <br/>
 <br/>
 
-오류를 마주하면 구글에 검색해보고, 검색만으론 해결할 수 없다면 stackoverflow나 Okky 사이트에 질문을 하였습니다.
-마주한 에러들은 블로그에 기록하여 재발을 방지했습니다.
-
-<br/>
-<br/>
-
 # Steps to Setup the Spring Boot Back end app
 <br/>
 
